@@ -12,10 +12,10 @@
 <p>Owner: <a href="/user/{{offer.owner._id}}">{{offer.owner.name}}</a></p>
 <div>
   <h4>Booking:</h4>
-  <form action="/offer/book/{{offer._id}}" method="post">
+  <form action="/offers/{{offer._id}}/book" method="post">
     {{#each offer.timeslots}}
-      <input type="checkbox" name="time" id="{{offer.timeslots.time}}" value="{{offer.timeslots.time}}">
-      <label for="{{offer.timeslots.time}}">{{offer.timeslots.time}}</label>
+      <input type="checkbox" name="time" id="{{time}}" value="{{time}}">
+      <label for="{{time}}">{{time}}</label>
     {{/each}}
     <button type="submit">Book</button>
   </form>
