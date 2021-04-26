@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const Offer = require('../models/Offer');
+const { loginCheck } = require('./middlewares');
 
 router.get('/', (req, res, next) => {
   Offer.find().populate('owner bookedBy')
@@ -13,11 +14,11 @@ router.get('/', (req, res, next) => {
     });
 });
 
-router.get('/create', (req, res) => {
+router.get('/create', loginCheck(), (req, res) => {
   res.render('offers/create');
 });
 
-router.post('/create', (req, res, next) => {
+router.post('/create', loginCheck(), (req, res, next) => {
   const { name, type, description, adress, owner, times } = req.body;
   const timeslots = times.map(t => {
     return { time: `${t}`, status: 'free', bookedBy: null };
@@ -43,21 +44,22 @@ router.get('/:id', (req, res, next) => {
 });
 
 
-router.post('/:id/book', (req, res, next) => {
-  console.log(req.body);
+router.post('/:id/book', loginCheck(), (req, res, next) => {
   Offer.findById(req.params.id)
     .then(offer => {
-      const modified = offer.timeslots.map(times => req.body.time.includes(times._id.toString()) ? { _id: times._id, time: times.time, status: 'booked', bookedBy: null } : times)
+      const modified = offer.timeslots.map(times => req.body.time.includes(times._id.toString()) ? { _id: times._id, time: times.time, status: 'booked', bookedBy: req.user._id } : times)
       console.log(modified);
       Offer.findByIdAndUpdate(req.params.id, { timeslots: modified})
-        .then(time => {
-          console.log(time);
+        .then(() => {
           res.redirect('/');
         })
         .catch(err => {
           next(err);
         });
     })
+    .catch(err => {
+      next(err);
+    });
 });
 
 module.exports = router;
