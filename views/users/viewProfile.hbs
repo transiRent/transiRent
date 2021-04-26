@@ -1,0 +1,15 @@
+{{#with user}}
+
+<h1>{{username}}'s public profile</h1>
+{{#if firstName}}
+  <p>First name: {{firstName}}</p>
+{{/if}}
+{{#if lastName}}
+  <p>Last name: {{lastName}}</p>
+{{/if}}
+{{#if description}}
+  <p>Description: {{description}}</p>
+{{/if}}
+
+{{/with}}
+<a href="">edit your public profile</a>
