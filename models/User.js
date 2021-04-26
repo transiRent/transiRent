@@ -9,7 +9,7 @@ const userSchema = new Schema({
   password: String,
   firstName: String,
   lastName: String,
-  Description: String,
+  description: String,
   imgPath: String,
   publicId: String
 });
