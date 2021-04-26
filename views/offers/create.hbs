@@ -1,0 +1,30 @@
+<h2>Create an Offer</h2>
+<form action="/offer" method="post">
+  <label for="name">Title:</label>
+  <input id="name" type="text" name="name">
+  <div>
+    <input type="radio" name="type" id="appartment" value="appartment">
+    <label for="appartment">Appartment</label>
+    <input type="radio" name="type" id="room" value="room">
+    <label for="room">Room</label>
+    <input type="radio" name="type" id="other" value="other">
+    <label for="other">Other</label>
+  </div>
+  <label for="description">Description:</label>
+  <textarea name="description" id="description" cols="30" rows="10"></textarea>
+  <div>
+    <p>Adress:</p>
+    <label for="street">Street:</label>
+    <input id="street" type="text" name="street">
+    <label for="number">Number:</label>
+    <input id="number" type="number" name="number">
+    <label for="code">Postal Code:</label>
+    <input id="code" type="number" name="code">
+    <label for="city">City:</label>
+    <input id="city" type="text" name="city" value="Berlin">
+  </div>
+  <select name="timeslots" id="timeslots" multiple>
+    <option value="2021-08-01" selected>2021-08-01</option>
+  </select>
+  <button type="submit">Create Offer</button>
+</form>

@@ -1,2 +1,14 @@
 <h1>{{title}} 🚀</h1>
+{{#if user}}
+<p>Welcome {{user.username}}!</p>
+{{else}}
 <p>Welcome Ironhacker!</p>
+{{/if}}
+
+<a href="/signup">Sign up</a>
+<a href="/login">Log in</a>
+
+{{#if user}}
+<a href="/profile">Profile</a>
+<a href="/logout">Log out</a>
+{{/if}}
