@@ -43,6 +43,16 @@ router.get('/login', (req, res, next) => {
 })
 
 //route where login form get's posted to
+router.post('/login', passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/login',
+  passReqToCallback: true
+}));
 
+//logout
+router.get('/logout', (req, res, next) => {
+  req.logout();
+  res.redirect('/')
+})
 
 module.exports = router;
