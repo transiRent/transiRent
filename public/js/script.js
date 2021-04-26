@@ -21,7 +21,7 @@ document.querySelector('#add').onclick = () => {
     for (let month = startMonth; month <= endMonth; month++) {
       for (let day = startDay; day <= endDay; day++) {
         for (let hour = startHour; hour <= endHour; hour++) {
-          document.querySelector('#timeslots').insertAdjacentHTML('beforeend', `<option value="${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}T${hour.toString().padStart(2, "0")}:00" selected>${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}T${hour.toString().padStart(2, "0")}:00</option>`);
+          document.querySelector('#times').insertAdjacentHTML('beforeend', `<option value="${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}T${hour.toString().padStart(2, "0")}:00" selected>${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}T${hour.toString().padStart(2, "0")}:00</option>`);
         }
       }
     }
