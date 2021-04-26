@@ -28,11 +28,13 @@ const offerSchema = new Schema({
       time: Date,
       status: {
         type: String,
-        enum: ['free', 'booked']
+        enum: ['free', 'booked'],
+        default: 'free'
       },
       bookedBy: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        default: null
       }
     }
   ]
