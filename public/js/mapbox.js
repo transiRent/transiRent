@@ -7,3 +7,11 @@ var map = new mapboxgl.Map({
    zoom: 9, // starting zoom
    // pitch: 100
 });
+
+// Add the control to the map.
+map.addControl(
+   new MapboxGeocoder({
+   accessToken: mapboxgl.accessToken,
+   mapboxgl: mapboxgl
+   })
+);
