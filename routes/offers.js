@@ -18,9 +18,14 @@ router.get('/create', (req, res) => {
 });
 
 router.post('/create', (req, res, next) => {
-  Offer.create(req.body)
+  const { name, type, description, adress, owner, times } = req.body;
+  const timeslots = times.map(t => {
+    return { time: `${t}`, status: 'free', bookedBy: null };
+  });
+  console.log(timeslots);
+  Offer.create({ name, type, description, adress, owner, timeslots })
     .then(() => {
-      res.redirect('offers/index');
+      res.redirect('/');
     })
     .catch(err => {
       next(err);
@@ -39,13 +44,20 @@ router.get('/:id', (req, res, next) => {
 
 
 router.post('/:id/book', (req, res, next) => {
-  Offer.findByIdAndUpdate(req.params.id, req.body)
-    .then(() => {
-      res.redirect('/offers/index');
+  console.log(req.body);
+  Offer.findById(req.params.id)
+    .then(offer => {
+      const modified = offer.timeslots.map(times => req.body.time.includes(times._id.toString()) ? { _id: times._id, time: times.time, status: 'booked', bookedBy: null } : times)
+      console.log(modified);
+      Offer.findByIdAndUpdate(req.params.id, { timeslots: modified})
+        .then(time => {
+          console.log(time);
+          res.redirect('/');
+        })
+        .catch(err => {
+          next(err);
+        });
     })
-    .catch(err => {
-      next(err);
-    });
 });
 
 module.exports = router;

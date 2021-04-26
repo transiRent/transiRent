@@ -1,5 +1,5 @@
 <h2>Create an Offer</h2>
-<form action="/offer" method="post">
+<form action="/offers/create" method="POST">
   <label for="name">Title:</label>
   <input id="name" type="text" name="name">
   <div>
@@ -23,11 +23,9 @@
     <label for="city">City:</label>
     <input id="city" type="text" name="city" value="Berlin">
   </div>
-  <select name="timeslots" id="timeslots" multiple>
+  <select name="times" id="times" multiple>
     <option value="2021-08-01" selected>2021-08-01</option>
     <option value="2021-08-02" selected>2021-08-02</option>
-    <option value="2021-08-03" selected>2021-08-03</option>
-    <option value="2021-08-04" selected>2021-08-04</option>
   </select>
   <button type="submit">Create Offer</button>
 </form>

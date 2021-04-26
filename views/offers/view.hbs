@@ -14,7 +14,7 @@
   <h4>Booking:</h4>
   <form action="/offers/{{offer._id}}/book" method="post">
     {{#each offer.timeslots}}
-      <input type="checkbox" name="time" id="{{time}}" value="{{time}}">
+      <input type="checkbox" name="time" id="{{time}}" value="{{_id}}">
       <label for="{{time}}">{{time}}</label>
     {{/each}}
     <button type="submit">Book</button>
