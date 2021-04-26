@@ -14,7 +14,8 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/create', (req, res) => {
-  res.render('offers/create');
+  const date =  new Date().toLocaleDateString();
+  res.render('offers/create', { date });
 });
 
 router.post('/create', (req, res, next) => {
