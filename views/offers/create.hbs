@@ -3,13 +3,18 @@
     <h2 class="card-title">Create an Offer</h2>
   </div>
   <div class="card-body">
+    {{#if message}}
+      <div class="alert alert-danger" role="alert">
+        {{message}}
+      </div>
+    {{/if}}
     <form action="/offers/create" method="POST" enctype="multipart/form-data">
       <div class="form-floating mb-3">
         <input class="form-control" placeholder="Title" id="name" type="text" name="name">
         <label for="name">Title</label>
       </div>
       <div class="btn-group mb-3" role="group">
-        <input type="radio" class="btn-check" name="type" id="appartment" value="appartment">
+        <input type="radio" class="btn-check" name="type" id="appartment" value="appartment" checked>
         <label class="btn btn-outline-primary" for="appartment">Appartment</label>
         <input type="radio" class="btn-check" name="type" id="room" value="room">
         <label class="btn btn-outline-primary" for="room">Room</label>

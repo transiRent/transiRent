@@ -1,0 +1,29 @@
+<h3>Offers</h3>
+{{#each modifiedOffers}}
+<div class="card mb-3">
+  <div class="card-header">
+    <h4 class="card-title">{{this.name}} <span class="badge bg-primary">{{this.type}}</span></h4>
+  </div>
+  <div class="card-body">
+    <form action="/offers/{{this.offer._id}}/edit" method="GET">
+      {{{this.output}}}
+      {{!-- <button type="submit" class="btn btn-primary btn-lg">Edit</button> --}}
+    </form>
+  </div>
+</div>
+{{/each}}
+
+<h3>Bookings</h3>
+{{#each modifiedBookings}}
+<div class="card mb-4">
+  <div class="card-header">
+    <h4 class="card-title">{{this.name}} <span class="badge bg-primary">{{this.type}}</span></h4>
+  </div>
+  <div class="card-body">
+    <form action="/offers/{{this.offer._id}}/edit" method="GET">
+      {{{this.output}}}
+      {{!-- <button type="submit" class="btn btn-primary btn-lg">Edit</button> --}}
+    </form>
+  </div>
+</div>
+{{/each}}
