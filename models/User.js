@@ -12,7 +12,9 @@ const userSchema = new Schema({
   description: String,
   imgName: String,
   imgPath: String,
-  publicId: String
+  publicId: String,
+  accumulatedRating: Number,
+  numberOfRatings: Number
 });
 
 const User = model("User", userSchema);

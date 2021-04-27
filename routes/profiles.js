@@ -21,24 +21,45 @@ router.get('/edit', (req, res, next) => {
   })
 });
 
-router.get('/:id', (req,res,next)=>{
-  // var usersOffers;
-  // Offer.findOne({owner : req.params.id})
-  // .then(offers=>usersOffers=JSON.parse(JSON.stringify(offers)))
-  // .catch(err=>next(err))
-  // console.log(usersOffers)
+router.get('/:id', (req, res, next) => {
   User.findById(req.params.id)
-  .then(user=>{
-    Offer.findOne({owner : user._id}).then(offers=>
-      res.render('users/userInfo', {
-        userInfo : user, offersInfo: offers 
-      })
-    )
-  })
-  .catch(err=>next(err));
+    .then(user => {
+      Offer.findOne({
+        owner: user._id
+      }).then(offers =>
+        res.render('users/userInfo', {
+          userInfo: user,
+          offersInfo: offers
+        })
+      )
+    })
+    .catch(err => next(err));
 })
 
+router.get('/rate/:id', (req, res, next) => {
+  User.findById(req.params.id)
+    .then(user => {
+      res.render('users/userRating', {
+        userInfo: user
+      })
+    })
+    .catch(err => {
+      next(err)
+    })
+})
 
+router.post('/rate/:id/', (req,res,next)=>{
+  const {rating} = req.body;
+  User.findById(req.params.id)
+  .then(user=>{
+    const newRating = parseInt(user.accumulatedRating) + parseInt(rating);
+    User.findByIdAndUpdate(req.params.id,{accumulatedRating:newRating})
+    .then(res.redirect('/'))
+    .catch(err=>{
+      next(err)
+    })
+  })
+})
 
 router.post('/edit', uploader.single('photo'), (req, res, next) => {
   console.log('here is the file ' + req.file)
@@ -56,7 +77,7 @@ router.post('/edit', uploader.single('photo'), (req, res, next) => {
     imgPath = req.file.path;
     imgName = req.file.originalname;
     publicId = req.file.filename;
-  } 
+  }
   User.findByIdAndUpdate(currentUser._id, {
       firstName: firstName,
       lastName: lastName,
