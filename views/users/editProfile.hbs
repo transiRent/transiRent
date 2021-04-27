@@ -1,21 +1,28 @@
 {{#with user}}
-
-<h1>edit {{username}}'s profile</h1>
-
-
-<form action="/profiles/edit/" method="POST" enctype="multipart/form-data">
-  <label for="firstName">First name:</label>
-  <input type="text" name="firstName" id="firstName" value="{{firstName}}">
-  <label for="lastName">Last name:</label>
-  <input type="text" name="lastName" id="lastName" value="{{lastName}}">
-  <div>
-    <label for="description">About me:</label>
-    <input type="text" name="description" id="description" value="{{description}}">
+<div class="card mb-3">
+  <div class="card-header">
+    <h2 class="card-title">Edit {{username}}'s profile</h2>
   </div>
-  <div>
-    <label for="photo">Profile image:</label>
-    <input type="file" name="photo" id="photo">
+  <div class="card-body">
+    <form action="/profiles/edit" method="POST" enctype="multipart/form-data">
+      <div class="form-floating mb-3">
+        <input class="form-control" placeholder="First Name" id="firstName" type="text" name="firstName" value="{{firstName}}">
+        <label for="firstName">First Name</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input class="form-control" placeholder="Last Name" id="lastName" type="text" name="lastName" value="{{lastName}}">
+        <label for="lastName">Last Name</label>
+      </div>
+      <div class="form-floating mb-3">
+        <textarea class="form-control" placeholder="About me" name="description" id="description" style="height: 100px" value="{{description}}"></textarea>
+        <label for="description">About me</label>
+      </div>
+      <div class="input-group mb-3">
+        <label class="input-group-text" for="photo">Add picture</label>
+        <input type="file" class="form-control" name="photo" id="photo">
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg">Save Changes</button>
+    </form>
   </div>
-  <button type="submit">save changes</button>
-</form>
+</div>
 {{/with}}
