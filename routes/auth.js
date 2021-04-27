@@ -11,17 +11,19 @@ router.get('/signup', (req, res, next) => {
 
 //route where signup form get's posted to
 router.post('/signup', (req, res, next) => {
-  const { username, password } = req.body;
+  const { username, password, confirm } = req.body;
   if (password.length < 6) {
-    res.render('signup', { message: 'Your password has to be 6 chars min' })
+    res.render('signup', { message: 'Password has to have at least 6 characters' })
     return
   }
-
+  if (password !== confirm) {
+    res.render('signup', { message: 'Passwords do not match' })
+    return
+  }
   if (username === '') {
-    res.render('signup', { message: 'Your username cannot be empty' });
+    res.render('signup', { message: 'Please provide username' });
     return
   }
-
   User.findOne({ username: username })
     .then(userFromDB => {
       if (userFromDB !== null) {
