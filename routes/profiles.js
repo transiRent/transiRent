@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const Offer = require('../models/Offer');
-const { uploader, cloudinary } = require('../config/cloudinary');
+const {
+  uploader,
+  cloudinary
+} = require('../config/cloudinary');
 
 router.get('/', (req, res, next) => {
   const currentUser = req.user;
@@ -26,9 +29,15 @@ router.post('/edit', uploader.single('photo'), (req, res, next) => {
     lastName,
     description
   } = req.body;
-  const imgPath = req.file.path;
-  const imgName = req.file.originalname;
-  const publicId = req.file.filename;
+  const imgPath = "";
+  const imgName = "";
+  const publicId = "";
+  if (req.file) {
+    console.log('there was a file')
+    imgPath = req.file.path;
+    imgName = req.file.originalname;
+    publicId = req.file.filename;
+  } 
   User.findByIdAndUpdate(currentUser._id, {
       firstName: firstName,
       lastName: lastName,
@@ -44,5 +53,7 @@ router.post('/edit', uploader.single('photo'), (req, res, next) => {
       next(err);
     })
 })
+
+
 
 module.exports = router;
