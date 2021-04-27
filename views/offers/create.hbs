@@ -1,64 +1,68 @@
-<h2>Create an Offer</h2>
-<div class="col-10">
-<form action="/offers/create" method="POST" enctype="multipart/form-data">
-  <div class="form-floating mb-3">
-    <input class="form-control" placeholder="Title" id="name" type="text" name="name">
-    <label for="name">Title</label>
+<div class="card mb-3">
+  <div class="card-header">
+    <h2 class="card-title">Create an Offer</h2>
   </div>
-  <div class="btn-group mb-3" role="group">
-    <input type="radio" class="btn-check" name="type" id="appartment" value="appartment">
-    <label class="btn btn-outline-primary" for="appartment">Appartment</label>
-    <input type="radio" class="btn-check" name="type" id="room" value="room">
-    <label class="btn btn-outline-primary" for="room">Room</label>
-    <input type="radio" class="btn-check" name="type" id="other" value="other">
-    <label class="btn btn-outline-primary" for="other">Other</label>
-  </div>
-  <div class="form-floating mb-3">
-    <textarea class="form-control" placeholder="Description" name="description" id="description" style="height: 100px"></textarea>
-    <label for="description">Description</label>
-  </div>
-  <div class="input-group mb-3">
-    <label class="input-group-text" for="photo">Add picture</label>
-    <input type="file" class="form-control" name="photo" id="photo">
-  </div>
-  <div class="row mb-3">
-    <div class="col-6">
-      <div class="form-floating">
-        <input class="form-control" placeholder="Street" id="street" type="text" name="street">
-        <label for="street">Street</label>
+  <div class="card-body">
+    <form action="/offers/create" method="POST" enctype="multipart/form-data">
+      <div class="form-floating mb-3">
+        <input class="form-control" placeholder="Title" id="name" type="text" name="name">
+        <label for="name">Title</label>
       </div>
-    </div>
-    <div class="col-2">
-      <div class="form-floating">
-        <input class="form-control" placeholder="Number" id="number" type="number" name="number">
-        <label for="number">Number</label>
+      <div class="btn-group mb-3" role="group">
+        <input type="radio" class="btn-check" name="type" id="appartment" value="appartment">
+        <label class="btn btn-outline-primary" for="appartment">Appartment</label>
+        <input type="radio" class="btn-check" name="type" id="room" value="room">
+        <label class="btn btn-outline-primary" for="room">Room</label>
+        <input type="radio" class="btn-check" name="type" id="other" value="other">
+        <label class="btn btn-outline-primary" for="other">Other</label>
       </div>
-    </div>
-  </div>
-  <div class="row mb-3">
-    <div class="col-2">
-      <div class="form-floating">
-        <input class="form-control" placeholder="Postal Code" id="code" type="number" name="code">
-        <label for="code">Postal Code</label>
+      <div class="form-floating mb-3">
+        <textarea class="form-control" placeholder="Description" name="description" id="description" style="height: 100px"></textarea>
+        <label for="description">Description</label>
       </div>
-    </div>
-    <div class="col-6">
-      <div class="form-floating">
-        <input class="form-control" placeholder="City" id="city" type="text" name="city">
-        <label for="city">City</label>
+      <div class="input-group mb-3">
+        <label class="input-group-text" for="photo">Add picture</label>
+        <input type="file" class="form-control" name="photo" id="photo">
       </div>
-    </div>
+      <div class="row mb-3">
+        <div class="col-6">
+          <div class="form-floating">
+            <input class="form-control" placeholder="Street" id="street" type="text" name="street">
+            <label for="street">Street</label>
+          </div>
+        </div>
+        <div class="col-2">
+          <div class="form-floating">
+            <input class="form-control" placeholder="Number" id="number" type="number" name="number">
+            <label for="number">Number</label>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-2">
+          <div class="form-floating">
+            <input class="form-control" placeholder="Postal Code" id="code" type="number" name="code">
+            <label for="code">Postal Code</label>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-floating">
+            <input class="form-control" placeholder="City" id="city" type="text" name="city">
+            <label for="city">City</label>
+          </div>
+        </div>
+      </div>
+      <div id="dates"></div>
+      <div class="col-6">
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="addon-wrapping">From</span>
+          <input type="datetime-local" class="form-control" name="start" id="start">
+          <span class="input-group-text" id="addon-wrapping">To</span>
+          <input type="datetime-local" class="form-control" name="end" id="end">
+          <button type="button" class="btn btn-outline-secondary" id="add">Add</button>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg">Create Offer</button>
+    </form>
   </div>
-  <div id="dates"></div>
-  <div class="col-8">
-    <div class="input-group mb-3">
-      <span class="input-group-text" id="addon-wrapping">From</span>
-      <input type="datetime-local" class="form-control" name="start" id="start" min="2021-04-26T12:00" step="3600">
-      <span class="input-group-text" id="addon-wrapping">To</span>
-      <input type="datetime-local" class="form-control" name="end" id="end">
-      <button class="btn btn-outline-secondary" id="add">Add</button>
-    </div>
-  </div>
-  <button type="submit" class="btn btn-primary btn-lg">Create Offer</button>
-</form>
 </div>

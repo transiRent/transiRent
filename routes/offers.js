@@ -54,7 +54,11 @@ router.get('/:id', (req, res, next) => {
       const dates = new Set(times.map(time => time.day));
       let output = '';
       for (date of dates) {
-        output += `<div><h4>${date}</h4>`;
+        output += `<div class="card mb-3">
+                    <div class="card-header">
+                      <h5 class="card-title">${date}</h5>
+                    </div>
+                    <div class="card-body">`;
         for (time of times) {
           if (time.day === date) {
             let disabled = '';
@@ -63,7 +67,7 @@ router.get('/:id', (req, res, next) => {
                        <label class="btn btn-outline-primary" for="${time._id}">${time.hour}:00</label>`
           }
         }
-        output += `</div>`;
+        output += `</div></div>`;
       }
       res.render('offers/view', { offer, output });
     })
