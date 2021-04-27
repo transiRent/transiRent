@@ -19,14 +19,18 @@ document.querySelector('#add').onclick = () => {
   const dates = new Set(times.map(time => time.day));
   let output = '';
   for (date of dates) {
-    output += `<div><h4>${date}</h4>`;
+    output += `<div class="card mb-3" style="width: 56rem;">
+                  <div class="card-header">
+                    <h5 class="card-title">${date}</h5>
+                  </div>
+                  <div class="card-body">`;
     for (time of times) {
       if (time.day === date) {
         output += `<input type="checkbox" class="btn-check" name="times" id="${time.time}" value="${time.time}" checked="true" autocomplete="off">
                   <label class="btn btn-outline-primary" for="${time.time}">${time.hour}:00</label>`
       }
     }
-    output += `</div>`;
+    output += `</div></div>`;
   }
   document.querySelector('#dates').innerHTML = output;
 }
