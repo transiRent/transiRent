@@ -21,6 +21,17 @@ router.get('/edit', (req, res, next) => {
   })
 });
 
+router.get('/:id', (req,res,next)=>{
+  User.findById(req.params.id)
+  .then(user=>{
+    res.render('users/userInfo', {
+      userInfo : user
+    })
+  })
+})
+
+
+
 router.post('/edit', uploader.single('photo'), (req, res, next) => {
   console.log('here is the file ' + req.file)
   const currentUser = req.user;
@@ -29,9 +40,9 @@ router.post('/edit', uploader.single('photo'), (req, res, next) => {
     lastName,
     description
   } = req.body;
-  const imgPath = "";
-  const imgName = "";
-  const publicId = "";
+  var imgPath = "";
+  var imgName = "";
+  var publicId = "";
   if (req.file) {
     console.log('there was a file')
     imgPath = req.file.path;
