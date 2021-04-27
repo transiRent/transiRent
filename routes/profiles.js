@@ -22,12 +22,20 @@ router.get('/edit', (req, res, next) => {
 });
 
 router.get('/:id', (req,res,next)=>{
+  // var usersOffers;
+  // Offer.findOne({owner : req.params.id})
+  // .then(offers=>usersOffers=JSON.parse(JSON.stringify(offers)))
+  // .catch(err=>next(err))
+  // console.log(usersOffers)
   User.findById(req.params.id)
   .then(user=>{
-    res.render('users/userInfo', {
-      userInfo : user
-    })
+    Offer.findOne({owner : user._id}).then(offers=>
+      res.render('users/userInfo', {
+        userInfo : user, offersInfo: offers 
+      })
+    )
   })
+  .catch(err=>next(err));
 })
 
 
