@@ -53,7 +53,8 @@ router.post('/rate/:id/', (req,res,next)=>{
   User.findById(req.params.id)
   .then(user=>{
     const newRating = parseInt(user.accumulatedRating) + parseInt(rating);
-    User.findByIdAndUpdate(req.params.id,{accumulatedRating:newRating})
+    const newNumberOfRatings = parseInt(user.numberOfRatings) + 1;
+    User.findByIdAndUpdate(req.params.id,{accumulatedRating:newRating, numberOfRatings: newNumberOfRatings})
     .then(res.redirect('/'))
     .catch(err=>{
       next(err)
