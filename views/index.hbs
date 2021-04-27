@@ -1,28 +1,8 @@
-<h1>{{title}}</h1>
-{{#if user}}
-<p>Welcome {{user.username}}!</p>
-{{else}}
-<p>Welcome</p>
-{{/if}}
-
-<a href="/signup">Sign up</a>
-<a href="/login">Log in</a>
-
-{{#if user}}
-<a href="/profiles">Profile</a>
-<a href="/logout">Log out</a>
-{{/if}}
-<a href="/offers">Offers</a>
-
-
 <div class="map-container">
-  <div class='sidebar'>
-    <div class='heading'>
-      <h1>Our locations</h1>
-    </div>
+  <div class='sidebar' style="overflow: auto; width: 300px; height: calc(100vh - 130px);">
     <div id='listings' class='listings'></div>
   </div>
-  <div id='map' style='width: 700px; height: 500px;'></div>
+  <div id='map' style='width: calc(100vw - 300px); height: calc(100vh - 130px);'></div>
 </div>
 
 <script src="/js/mapbox.js"></script>  
