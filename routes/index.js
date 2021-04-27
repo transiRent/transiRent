@@ -100,4 +100,17 @@ router.get("/dashboard", (req, res, next) => {
   });
 });
 
+
+/* GET data from database */
+router.get('/get-data', (req, res, next) => {
+  Offer.find()
+  .then(allOffers => {
+    console.log(allOffers)
+    res.json(allOffers);
+  })
+  .catch(err => {
+    next(err)
+  }) 
+})
+
 module.exports = router;
