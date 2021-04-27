@@ -19,12 +19,18 @@ router.get('/create', loginCheck(), (req, res) => {
 });
 
 router.post('/create', loginCheck(), (req, res, next) => {
-  const { name, type, description, adress, owner, times } = req.body;
+  const { name, type, description, street, number, code, city, times } = req.body;
   const timeslots = times.map(t => {
     return { time: `${t}`, status: 'free', bookedBy: null };
   });
-  console.log(timeslots);
-  Offer.create({ name, type, description, adress, owner, timeslots })
+  const owner = req.user;
+  const address = {
+    street,
+    number,
+    code,
+    city
+  };
+  Offer.create({ name, type, description, address, owner, timeslots })
     .then(() => {
       res.redirect('/');
     })
@@ -35,14 +41,32 @@ router.post('/create', loginCheck(), (req, res, next) => {
 
 router.get('/:id', (req, res, next) => {
   Offer.findById(req.params.id)
+    .populate('owner bookedBy')
     .then(offer => {
-      res.render('offers/view', { offer });
+      const times = offer.timeslots.map(t => {
+        const date = new Date(t.time);
+        return { day: `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`, hour: `${date.getHours()}`, time: `${t.time}`, status: t.status, bookedBy: t.bookedBy, _id: t._id };
+      });
+      const dates = new Set(times.map(time => time.day));
+      let output = '';
+      for (date of dates) {
+        output += `<div><h4>${date}</h4>`;
+        for (time of times) {
+          if (time.day === date) {
+            let disabled = '';
+            if (time.status === 'booked') disabled = 'disabled';
+            output += `<input type="checkbox" class="btn-check" name="time" id="${time._id}" value="${time._id}" autocomplete="off" ${disabled}>
+                       <label class="btn btn-outline-primary" for="${time._id}">${time.hour}:00</label>`
+          }
+        }
+        output += `</div>`;
+      }
+      res.render('offers/view', { offer, output });
     })
     .catch(err => {
       next(err);
     });
 });
-
 
 router.post('/:id/book', loginCheck(), (req, res, next) => {
   Offer.findById(req.params.id)

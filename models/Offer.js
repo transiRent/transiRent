@@ -10,7 +10,7 @@ const offerSchema = new Schema({
     enum: ['appartment', 'room', 'other']
   },
   description: String,
-  adress: {
+  address: {
     street: String,
     number: Number,
     code: Number,

@@ -13,7 +13,7 @@
   <label for="description">Description:</label>
   <textarea name="description" id="description" cols="30" rows="10"></textarea>
   <div>
-    <p>Adress:</p>
+    <p>Address:</p>
     <label for="street">Street:</label>
     <input id="street" type="text" name="street">
     <label for="number">Number:</label>
@@ -23,15 +23,12 @@
     <label for="city">City:</label>
     <input id="city" type="text" name="city" value="Berlin">
   </div>
-  <select name="times" id="times" multiple size="10">
-    <option value="">Timeslots</option>
-
-  </select>
+  <div id="dates"></div>
   <button type="submit">Create Offer</button>
 </form>
 <div>
   <label for="start">From</label>
-  <input type="datetime-local" name="start" id="start">
+  <input type="datetime-local" name="start" id="start" min="2021-04-26T12:00" step="3600">
   <label for="start">To</label>
   <input type="datetime-local" name="end" id="end">
   <button id="add">Add</button>

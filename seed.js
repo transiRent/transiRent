@@ -12,7 +12,7 @@ const offers = [
     name: "Peter's lovely room",
     type: "room",
     description: "a lovely room",
-    adress: {
+    address: {
       street: "Credabilitystr",
       number: 100,
       code: 10117,
@@ -31,7 +31,7 @@ const offers = [
     name: "Sally has an appartment!!!",
     type: "appartment",
     description: "lovely appartment in s-berg!!!!!!!",
-    adress: {
+    address: {
       street: "pallaststr",
       number: 123,
       code: 10781,
@@ -50,7 +50,7 @@ const offers = [
     name: "Barry's bike lockup",
     type: "other",
     description: "its cold but it will do",
-    adress: {
+    address: {
       street: "schlechtstr",
       number: 13,
       code: 10117,
