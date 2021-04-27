@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/User');
 const Offer = require('../models/Offer');
 const { loginCheck } = require('./middlewares');
+const { uploader, cloudinary } = require('../config/cloudinary');
 
 router.get('/', (req, res, next) => {
   Offer.find().populate('owner bookedBy')
@@ -18,7 +19,10 @@ router.get('/create', loginCheck(), (req, res) => {
   res.render('offers/create');
 });
 
-router.post('/create', loginCheck(), (req, res, next) => {
+router.post('/create', loginCheck(), uploader.single('photo'), (req, res, next) => {
+  const imgPath = req.file.path;
+  const imgName = req.file.originalname;
+  const publicId = req.file.filename;
   const { name, type, description, street, number, code, city, times } = req.body;
   const timeslots = times.map(t => {
     return { time: `${t}`, status: 'free', bookedBy: null };
@@ -30,7 +34,7 @@ router.post('/create', loginCheck(), (req, res, next) => {
     code,
     city
   };
-  Offer.create({ name, type, description, address, owner, timeslots })
+  Offer.create({ name, type, description, imgPath, imgName, publicId, address, owner, timeslots })
     .then(() => {
       res.redirect('/');
     })
