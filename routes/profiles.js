@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const Offer = require('../models/Offer');
-const { uploader, cloudinary } = require('../config/cloudinary');
+const {
+  uploader,
+  cloudinary
+} = require('../config/cloudinary');
 
 router.get('/', (req, res, next) => {
   const currentUser = req.user;
@@ -18,6 +21,25 @@ router.get('/edit', (req, res, next) => {
   })
 });
 
+router.get('/:id', (req,res,next)=>{
+  // var usersOffers;
+  // Offer.findOne({owner : req.params.id})
+  // .then(offers=>usersOffers=JSON.parse(JSON.stringify(offers)))
+  // .catch(err=>next(err))
+  // console.log(usersOffers)
+  User.findById(req.params.id)
+  .then(user=>{
+    Offer.findOne({owner : user._id}).then(offers=>
+      res.render('users/userInfo', {
+        userInfo : user, offersInfo: offers 
+      })
+    )
+  })
+  .catch(err=>next(err));
+})
+
+
+
 router.post('/edit', uploader.single('photo'), (req, res, next) => {
   console.log('here is the file ' + req.file)
   const currentUser = req.user;
@@ -26,9 +48,15 @@ router.post('/edit', uploader.single('photo'), (req, res, next) => {
     lastName,
     description
   } = req.body;
-  const imgPath = req.file.path;
-  const imgName = req.file.originalname;
-  const publicId = req.file.filename;
+  var imgPath = "";
+  var imgName = "";
+  var publicId = "";
+  if (req.file) {
+    console.log('there was a file')
+    imgPath = req.file.path;
+    imgName = req.file.originalname;
+    publicId = req.file.filename;
+  } 
   User.findByIdAndUpdate(currentUser._id, {
       firstName: firstName,
       lastName: lastName,
@@ -44,5 +72,7 @@ router.post('/edit', uploader.single('photo'), (req, res, next) => {
       next(err);
     })
 })
+
+
 
 module.exports = router;

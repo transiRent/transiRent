@@ -1,0 +1,27 @@
+{{#with userInfo}}
+
+<h1>{{username}}'s public profile</h1>
+{{#if firstName}}
+<p>First name: {{firstName}}</p>
+{{/if}}
+{{#if lastName}}
+<p>Last name: {{lastName}}</p>
+{{/if}}
+{{#if description}}
+<p>Description: {{description}}</p>
+{{/if}}
+{{#if imgPath}}
+<p>Profile picture:</p>
+<img src="{{imgPath}}" height="100px" alt="profile-pic">
+{{/if}}
+<h5>{{username}}'s offers: </h5>
+{{/with}}
+{{#if offersInfo}}
+<div>
+  {{#each offersInfo}}
+  <div>
+    <p><a href="/offers/{{_id}}">{{name}}</a></p>
+  </div>
+  {{/each}}
+</div>
+{{/if}}
