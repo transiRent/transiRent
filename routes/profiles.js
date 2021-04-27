@@ -52,15 +52,18 @@ router.post('/rate/:id/', (req,res,next)=>{
   const {rating} = req.body;
   User.findById(req.params.id)
   .then(user=>{
-    console.log('here is the id ' + user)
     var newRating = 0;
     var newNumberOfRatings = 0;
+    var newAverageRating = 0;
     if(!user.accumulatedRating){newRating=parseInt(rating)}
     else{newRating = parseInt(user.accumulatedRating) + parseInt(rating);}
     if(!user.numberOfRatings){newNumberOfRatings=1;}
     else{newNumberOfRatings = parseInt(user.numberOfRatings) + 1;}
-    console.log('new rating ' +newRating + 'new number of ratings'+ newNumberOfRatings)
-    User.findByIdAndUpdate(req.params.id,{accumulatedRating:newRating, numberOfRatings: newNumberOfRatings})
+    if(!user.averageRating){newAverageRating=parseInt(rating);}
+    else{newAverageRating = Math.round(newRating/newNumberOfRatings);}
+
+    console.log('here is the new average ' + newAverageRating)
+    User.findByIdAndUpdate(req.params.id,{accumulatedRating:newRating, numberOfRatings: newNumberOfRatings, averageRating: newAverageRating})
     .then(res.redirect('/'))
     .catch(err=>{
       next(err)
