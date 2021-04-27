@@ -19,7 +19,7 @@ document.querySelector('#add').onclick = () => {
   const dates = new Set(times.map(time => time.day));
   let output = '';
   for (date of dates) {
-    output += `<div class="card mb-3" style="width: 56rem;">
+    output += `<div class="card mb-3">
                   <div class="card-header">
                     <h5 class="card-title">${date}</h5>
                   </div>
