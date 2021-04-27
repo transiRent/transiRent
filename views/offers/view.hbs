@@ -35,6 +35,11 @@
   <ul class="list-group list-group-flush">
     <li class="list-group-item">
       <h3>Booking</h3>
+      {{#if message}}
+        <div class="alert alert-danger" role="alert">
+          {{message}}
+        </div>
+      {{/if}}
       <form action="/offers/{{offer._id}}/book" method="POST">
         {{{output}}}
         <button type="submit" class="btn btn-primary btn-lg">Book</button>
