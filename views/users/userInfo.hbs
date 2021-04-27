@@ -14,9 +14,14 @@
 <p>Profile picture:</p>
 <img src="{{imgPath}}" height="100px" alt="profile-pic">
 {{/if}}
-
+<h5>{{username}}'s offers: </h5>
 {{/with}}
-
 {{#if offersInfo}}
-<p>there are offers</p>
+<div>
+  {{#each offersInfo}}
+  <div>
+    <p><a href="/offers/{{_id}}">{{name}}</a></p>
+  </div>
+  {{/each}}
+</div>
 {{/if}}
