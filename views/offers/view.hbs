@@ -1,5 +1,7 @@
-<h2>View Offer</h2>
-<h3>{{offer.name}}</h3>
+<h2>{{offer.name}}</h2>
+{{#if offer.imgPath}}
+<img src="{{offer.imgPath}}" class="img-thumbnail" alt="Picture of offer">
+{{/if}}
 <p>{{offer.type}}</p>
 <p>{{offer.description}}</p>
 <div>
