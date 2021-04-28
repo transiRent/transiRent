@@ -14,7 +14,7 @@
 <img src="{{imgPath}}" height="100px" alt="profile-pic">
 {{/if}}
 {{#if averageRating}}
-<p>average user rating for {{username}}: {{averageRating}}</p>
+<p>average user rating for {{username}}:</p>
 <img height="15px" src="/images/{{averageRating}}star.png" alt="star logo">
 {{/if}}
 
@@ -30,7 +30,7 @@
 </div>
 {{/if}}
 {{#if ratingsInfo}}
-<h3>User ratings: </h3>
+<h3>Top user ratings: </h3>
 {{#each ratingsInfo}}
 <p>Rating: {{rating}}</p>
 <p>Comments: {{comments}}</p>
