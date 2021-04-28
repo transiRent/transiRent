@@ -20,7 +20,7 @@ router.get('/create', loginCheck(), (req, res) => {
 });
 
 router.post('/create', loginCheck(), uploader.single('photo'), (req, res, next) => {
-  const { name, type, description, street, number, code, city, times } = req.body;
+  const { name, type, description, street, number, code, city, times, price } = req.body;
   if (!name) {
     res.render('offers/create', { message: 'Please enter a title' })
     return
@@ -60,7 +60,7 @@ router.post('/create', loginCheck(), uploader.single('photo'), (req, res, next) 
     code,
     city
   };
-  Offer.create({ name, type, description, imgPath, imgName, publicId, address, owner, timeslots })
+  Offer.create({ name, type, description, imgPath, imgName, publicId, address, owner, timeslots, price })
     .then(() => {
       res.redirect('/');
     })
@@ -80,35 +80,35 @@ router.get('/:id', (req, res, next) => {
       const dates = new Set(times.map(time => time.day));
       let output = '';
       if (req.user && offer.owner._id.toString() === req.user._id.toString()) {
-        for (date of dates) {
+        for (let date of dates) {
           output += `<div class="card mb-3">
                       <div class="card-header">
                         <h5 class="card-title">${date}</h5>
                       </div>
                       <div class="card-body">`;
-          for (time of times) {
+          for (let time of times) {
             if (time.day === date) {
               let checked = '';
               if (time.status === 'booked') checked = 'checked';
-              output += `<input type="checkbox" class="btn-check" name="time" id="${time._id}" value="${time._id}" autocomplete="off" ${checked} disabled>
-                         <label class="btn btn-outline-primary" for="${time._id}">${time.hour}:00</label>`
+              output += `<input type="checkbox" class="btn-check mb-1" name="time" id="${time._id}" value="${time._id}" autocomplete="off" ${checked} disabled>
+                         <label class="btn btn-outline-primary mb-1" for="${time._id}">${time.hour}:00</label>`
             }
           }
           output += `</div></div>`;
         }
       } else {
-        for (date of dates) {
+        for (let date of dates) {
           output += `<div class="card mb-3">
                       <div class="card-header">
                         <h5 class="card-title">${date}</h5>
                       </div>
                       <div class="card-body">`;
-          for (time of times) {
+          for (let time of times) {
             if (time.day === date) {
               let disabled = '';
               if (time.status === 'booked') disabled = 'disabled';
-              output += `<input type="checkbox" class="btn-check" name="time" id="${time._id}" value="${time._id}" autocomplete="off" ${disabled}>
-                         <label class="btn btn-outline-primary" for="${time._id}">${time.hour}:00</label>`
+              output += `<input type="checkbox" class="btn-check mb-1" name="time" id="${time._id}" value="${time._id}" autocomplete="off" ${disabled}>
+                         <label class="btn btn-outline-primary mb-1" for="${time._id}">${time.hour}:00</label>`
             }
           }
           output += `</div></div>`;
@@ -133,18 +133,18 @@ router.post('/:id/book', loginCheck(), (req, res, next) => {
       });
       const dates = new Set(times.map(time => time.day));
       let output = '';
-      for (date of dates) {
+      for (let date of dates) {
         output += `<div class="card mb-3">
                     <div class="card-header">
                       <h5 class="card-title">${date}</h5>
                     </div>
                     <div class="card-body">`;
-        for (time of times) {
+        for (let time of times) {
           if (time.day === date) {
             let checked = '';
             if (time.status === 'booked') checked = 'checked';
-            output += `<input type="checkbox" class="btn-check" name="time" id="${time._id}" value="${time._id}" autocomplete="off" ${checked} disabled>
-                       <label class="btn btn-outline-primary" for="${time._id}">${time.hour}:00</label>`
+            output += `<input type="checkbox" class="btn-check mb-1" name="time" id="${time._id}" value="${time._id}" autocomplete="off" ${checked} disabled>
+                       <label class="btn btn-outline-primary mb-1" for="${time._id}">${time.hour}:00</label>`
           }
         }
         output += `</div></div>`;
@@ -167,6 +167,105 @@ router.post('/:id/book', loginCheck(), (req, res, next) => {
         .catch(err => {
           next(err);
         });
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+router.post('/:id/delete', loginCheck(), (req, res, next) => {
+  Offer.findById(req.params.id)
+  .populate('owner bookedBy')
+  .then(offer => {
+    if (offer.owner._id.toString() === req.user._id.toString()) {
+      for (let timeslot of offer.timeslots) {
+        if (timeslot.status === 'booked') {
+          res.render('users/dashboard', { message: 'You cannot delete booked offers' })
+          return
+        }
+      }
+      Offer.findByIdAndDelete(req.params.id)
+      .then(() => {
+        console.log('deleted');
+        res.redirect('/dashboard');
+      })
+      .catch(err => {
+        next(err);
+      })
+    }
+  })
+  .catch(err => {
+    next(err);
+  });
+});
+
+router.get('/:id/edit', (req, res, next) => {
+  Offer.findById(req.params.id)
+    .populate('owner bookedBy')
+    .then(offer => {
+      const times = offer.timeslots.map(t => {
+        const date = new Date(t.time);
+        return { day: `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`, hour: `${date.getHours()}`, time: `${t.time}`, status: t.status, bookedBy: t.bookedBy, _id: t._id };
+      });
+      const dates = new Set(times.map(time => time.day));
+      let output = '';
+      if (req.user && offer.owner._id.toString() === req.user._id.toString()) {
+        for (let date of dates) {
+          output += `<div class="card mb-3">
+                      <div class="card-header">
+                        <h5 class="card-title">${date}</h5>
+                      </div>
+                      <div class="card-body">`;
+          for (let time of times) {
+            if (time.day === date) {
+              let disabled = 'checked';
+              if (time.status === 'booked') disabled = 'disabled';
+              output += `<input type="checkbox" class="btn-check mb-1" name="times" id="${time._id}" value="${time.time}" autocomplete="off" ${disabled}>
+                         <label class="btn btn-outline-primary mb-1" for="${time._id}">${time.hour}:00</label>`
+            }
+          }
+          output += `</div></div>`;
+        }
+      }
+      let appartment, room, other = ''
+      if(offer.type === 'appartment') appartment = 'checked';
+      if(offer.type === 'room') room = 'checked';
+      if(offer.type === 'other') other = 'checked';
+      res.render('offers/edit', { user: req.user, offer, output, appartment, room, other });
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+router.post('/:id/edit', loginCheck(), uploader.single('photo'), (req, res, next) => {
+  const { name, type, description, street, number, code, city, times, price } = req.body;
+  let imgPath = "";
+  let imgName = "";
+  let publicId = "";
+  if (req.file) {
+    imgPath = req.file.path;
+    imgName = req.file.originalname;
+    publicId = req.file.filename;
+  }
+  let timeslots;
+  if (typeof times === 'string') {
+    timeslots = [{ time: `${times}`, status: 'free', bookedBy: null }];
+  } else {
+    timeslots = times.map(t => {
+      return { time: `${t}`, status: 'free', bookedBy: null };
+    });
+  }
+  const owner = req.user;
+  const address = {
+    street,
+    number,
+    code,
+    city
+  };
+  Offer.findByIdAndUpdate(req.params.id, { name, type, description, imgPath, imgName, publicId, address, timeslots, price })
+    .then(() => {
+      res.redirect('/dashboard');
     })
     .catch(err => {
       next(err);

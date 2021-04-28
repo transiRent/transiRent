@@ -22,6 +22,10 @@ const offerSchema = new Schema({
       default: 'Berlin'
     }
   },
+  price: {
+    type: Number,
+    default: 0
+  },
   owner: {
     type: Schema.Types.ObjectId,
     ref: 'User'

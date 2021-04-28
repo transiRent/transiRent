@@ -21,6 +21,7 @@ router.get("/dashboard", loginCheck(), (req, res, next) => {
       });
       const dates = new Set(times.map(time => time.day));
       output = '';
+      let offerBooked = '';
       for (date of dates) {
         output += `<div class="card mb-3">
                     <div class="card-header">
@@ -32,6 +33,7 @@ router.get("/dashboard", loginCheck(), (req, res, next) => {
             let disabled = 'disabled';
             let outline = 'outline-';
             if (time.status === 'booked') {
+              offerBooked = 'disabled';
               disabled = '';
               outline = '';
             }
@@ -40,6 +42,10 @@ router.get("/dashboard", loginCheck(), (req, res, next) => {
         }
         output += `</div></div>`;
       }
+      output += `<form action="/offers/${offer._id}/delete" method="POST">
+                    <a href="/offers/${offer._id}/edit" class="btn btn-primary btn-lg" tabindex="-1" role="button"><i class="bi bi-pencil-fill"></i></a>
+                    <button type="submit" class="btn btn-danger btn-lg" ${offerBooked}><i class="bi bi-trash-fill"></i></button>
+                 </form>`;
       return {
         address: offer.address,
         _id: offer._id,

@@ -1,7 +1,7 @@
 <div class="p-3">
   <div class="card">
     <div class="card-header">
-      <h2 class="card-title">Create an Offer</h2>
+      <h2 class="card-title">Edit Offer</h2>
     </div>
     <div class="card-body">
       {{#if message}}
@@ -9,21 +9,21 @@
           {{message}}
         </div>
       {{/if}}
-      <form action="/offers/create" method="POST" enctype="multipart/form-data">
+      <form action="/offers/{{offer._id}}/edit" method="POST" enctype="multipart/form-data">
         <div class="form-floating mb-3">
-          <input class="form-control" placeholder="Title" id="name" type="text" name="name">
+          <input class="form-control" placeholder="Title" id="name" type="text" name="name" value="{{offer.name}}" required>
           <label for="name">Title</label>
         </div>
         <div class="btn-group mb-3" role="group">
-          <input type="radio" class="btn-check" name="type" id="appartment" value="appartment" checked>
+          <input type="radio" class="btn-check" name="type" id="appartment" value="appartment" {{appartment}}>
           <label class="btn btn-outline-primary" for="appartment">Appartment</label>
-          <input type="radio" class="btn-check" name="type" id="room" value="room">
+          <input type="radio" class="btn-check" name="type" id="room" value="room" {{room}}>
           <label class="btn btn-outline-primary" for="room">Room</label>
-          <input type="radio" class="btn-check" name="type" id="other" value="other">
+          <input type="radio" class="btn-check" name="type" id="other" value="other" {{other}}>
           <label class="btn btn-outline-primary" for="other">Other</label>
         </div>
         <div class="form-floating mb-3">
-          <textarea class="form-control" placeholder="Description" name="description" id="description" style="height: 100px"></textarea>
+          <textarea class="form-control" placeholder="Description" name="description" id="description" style="height: 100px" required>{{offer.description}}</textarea>
           <label for="description">Description</label>
         </div>
         <div class="input-group mb-3">
@@ -33,20 +33,20 @@
         <div class="col-3">
           <div class="input-group mb-3">
             <span class="input-group-text">€/h</span>
-            <input class="form-control" placeholder="Price" id="price" type="number" name="price">
+            <input class="form-control" placeholder="Price" id="price" type="number" name="price" value="{{offer.price}}">
             <span class="input-group-text">,00</span>
           </div>
         </div>
         <div class="row mb-3">
           <div class="col-6">
             <div class="form-floating">
-              <input class="form-control" placeholder="Street" id="street" type="text" name="street">
+              <input class="form-control" placeholder="Street" id="street" type="text" name="street" value="{{offer.address.street}}" required>
               <label for="street">Street</label>
             </div>
           </div>
           <div class="col-2">
             <div class="form-floating">
-              <input class="form-control" placeholder="Number" id="number" type="number" name="number">
+              <input class="form-control" placeholder="Number" id="number" type="number" name="number" value="{{offer.address.number}}" required>
               <label for="number">Number</label>
             </div>
           </div>
@@ -54,18 +54,18 @@
         <div class="row mb-3">
           <div class="col-2">
             <div class="form-floating">
-              <input class="form-control" placeholder="Postal Code" id="code" type="number" name="code">
+              <input class="form-control" placeholder="Postal Code" id="code" type="number" name="code" value="{{offer.address.code}}" required>
               <label for="code">Postal Code</label>
             </div>
           </div>
           <div class="col-6">
             <div class="form-floating">
-              <input class="form-control" placeholder="City" id="city" type="text" name="city">
+              <input class="form-control" placeholder="City" id="city" type="text" name="city" value="{{offer.address.city}}" required>
               <label for="city">City</label>
             </div>
           </div>
         </div>
-        <div id="dates"></div>
+        <div id="dates">{{{output}}}</div>
         <div class="col-6">
           <div class="input-group mb-3">
             <span class="input-group-text" id="addon-wrapping">From</span>
@@ -75,7 +75,7 @@
             <button type="button" class="btn btn-outline-secondary" id="add">Add</button>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary btn-lg">Create Offer</button>
+        <button type="submit" class="btn btn-primary btn-lg">Save</button>
       </form>
     </div>
   </div>
