@@ -38,12 +38,6 @@
                <li class="nav-item">
                   <a class="nav-link active" aria-current="page" href="/offers">Offers</a>
                </li>
-               <li class="nav-item">
-                  <a class="nav-link" href="/signup">Sign Up</a>
-               </li>
-               <li class="nav-item">
-                  <a class="nav-link" href="/login">Log In</a>
-               </li>
                {{#if user}}
                <li class="nav-item">
                   <a class="nav-link" href="/profiles">Profile</a>
@@ -51,8 +45,15 @@
                <li class="nav-item">
                   <a class="nav-link" href="/logout">Log Out</a>
                </li>
-               {{/if}}
             </ul>
+            <a class="btn btn-primary btn-lg" href="/dashboard" role="button">Dashboard</a>
+            {{else}}
+               <li class="nav-item">
+                  <a class="nav-link" href="/signup">Sign Up</a>
+               </li>
+            </ul>
+            <a class="btn btn-primary btn-lg" href="/login" role="button">Log In</a>
+            {{/if}}
          </div>
       </div>
    </nav>
@@ -61,7 +62,6 @@
 <body>
    {{{body}}}
 
-   <script src="/js/mapbox.js"></script>  
    <script src="/js/script.js"></script>   
 
 </body>
