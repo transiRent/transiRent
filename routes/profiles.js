@@ -110,5 +110,23 @@ function average(arrayOfRatings, newestRating){
   return Math.round((count+parseInt(newestRating))/(arrayOfRatings.length+1));
 }
 
+router.post('/delete', (req, res, next) => {
+  console.log(req.user)
+  Offer.deleteMany({ owner: req.user._id })
+    .then(() => {
+      User.findOneAndDelete({_id: req.user._id})
+        .then(() => {
+          req.logout();
+          req.session.destroy();
+          res.redirect('/')
+        })
+        .catch(err => {
+          next(err);
+        })
+    }) 
+    .catch(err => {
+      next(err);
+    }) 
+})
 
 module.exports = router;

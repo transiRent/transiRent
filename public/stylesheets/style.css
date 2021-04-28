@@ -213,3 +213,13 @@ ul li {
 .mapboxgl-popup {
   padding-bottom: 50px;
 }
+
+.btn.delete {
+  background-color: rgb(238, 2, 2);
+  border: none;
+  margin: 16px;
+}
+
+.btn.delete:hover {
+  background-color: rgb(207, 4, 4);
+}
