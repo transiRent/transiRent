@@ -37,13 +37,13 @@ router.post('/create', loginCheck(), uploader.single('photo'), (req, res, next) 
     res.render('offers/create', { message: 'Please add timeslots' })
     return
   }
-  const imgPath = "";
-  const imgName = "";
-  const publicId = "";
+  let imgPath = "";
+  let imgName = "";
+  let publicId = "";
   if (req.file) {
-    const imgPath = req.file.path;
-    const imgName = req.file.originalname;
-    const publicId = req.file.filename;
+   imgPath = req.file.path;
+   imgName = req.file.originalname;
+   publicId = req.file.filename;
   }
   const timeslots = times.map(t => {
     return { time: `${t}`, status: 'free', bookedBy: null };
