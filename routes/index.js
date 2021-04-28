@@ -10,7 +10,7 @@ router.get("/", (req, res, next) => {
   res.render("index", { user: currentUser });
 });
 
-router.get("/dashboard", (req, res, next) => {
+router.get("/dashboard", loginCheck(), (req, res, next) => {
   const currentUser = req.user;
   Offer.find({ owner: currentUser._id })
   .then(offers => {
@@ -29,10 +29,13 @@ router.get("/dashboard", (req, res, next) => {
                     <div class="card-body">`;
         for (time of times) {
           if (time.day === date) {
-            let checked = '';
-            if (time.status === 'booked') checked = 'checked';
-            output += `<input type="checkbox" class="btn-check btn-sm" name="time" id="${time._id}" value="${time._id}" autocomplete="off" ${checked} disabled>
-                       <label class="btn btn-outline-primary btn-sm" for="${time._id}">${time.hour}:00</label>`
+            let disabled = 'disabled';
+            let outline = 'outline-';
+            if (time.status === 'booked') {
+              disabled = '';
+              outline = '';
+            }
+            output += `<a href="/profiles/${time.bookedBy}" class="btn btn-${outline}primary btn-sm ${disabled} m-1" tabindex="-1" role="button">${time.hour}:00</a>`
           }
         }
         output += `</div></div>`;
@@ -71,8 +74,7 @@ router.get("/dashboard", (req, res, next) => {
                         <div class="card-body">`;
             for (time of filteredTimes) {
               if (time.day === date) {
-                output += `<input type="checkbox" class="btn-check btn-sm" name="time" id="${time._id}" value="${time._id}" autocomplete="off" checked disabled>
-                          <label class="btn btn-outline-primary btn-sm" for="${time._id}">${time.hour}:00</label>`
+                output += `<a href="/profiles/${time.bookedBy}" class="btn btn-primary btn-sm disabled m-1" tabindex="-1" role="button">${time.hour}:00</a>`
               }
             }
             output += `</div></div>`;
@@ -89,7 +91,7 @@ router.get("/dashboard", (req, res, next) => {
             output
           };
         })
-        res.render('users/dashboard', { currentUser, modifiedOffers, modifiedBookings });
+        res.render('users/dashboard', { user: currentUser, modifiedOffers, modifiedBookings });
       })
       .catch(err => {
         next(err);

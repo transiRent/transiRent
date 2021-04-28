@@ -1,49 +1,51 @@
-<div class="card mb-3">
-  <div class="card-header">
-    <h2 class="card-title">{{offer.name}} <span class="badge bg-primary">{{offer.type}}</span></h2>
-  </div>
-  <div class="card-body">
-    <div class="row">
-      <div class="col-8">
-        <div class="card mb-3">
-          <div class="card-body">
-            <p>{{offer.description}}</p>
+<div class="p-3">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title">{{offer.name}} <span class="badge bg-primary">{{offer.type}}</span></h2>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-8">
+          <div class="card mb-3">
+            <div class="card-body">
+              <p>{{offer.description}}</p>
+            </div>
+          </div>
+          <div class="card mb-3">
+            <div class="card-header">
+              <h5 class="card-title">Address</h5>
+            </div>
+            <div class="card-body">
+              <p>
+                {{offer.address.street}} {{offer.address.number}}<br>
+                {{offer.address.code}} {{offer.address.city}}
+              </p>
+            </div>
+            <div class="card-footer">
+              Host: <a href="/profiles/{{offer.owner._id}}">{{offer.owner.username}}</a>
+            </div>
           </div>
         </div>
-        <div class="card mb-3">
-          <div class="card-header">
-            <h5 class="card-title">Address</h5>
-          </div>
-          <div class="card-body">
-            <p>
-              {{offer.address.street}} {{offer.address.number}}<br>
-              {{offer.address.code}} {{offer.address.city}}
-            </p>
-          </div>
-          <div class="card-footer">
-            Host: <a href="/profiles/{{offer.owner._id}}">{{offer.owner.username}}</a>
-          </div>
+        <div class="col-4 mb-3">
+          {{#if offer.imgPath}}
+            <img src="{{offer.imgPath}}" class="img-thumbnail" alt="Picture of offer">
+          {{/if}}
         </div>
-      </div>
-      <div class="col-4 mb-3">
-        {{#if offer.imgPath}}
-          <img src="{{offer.imgPath}}" class="img-thumbnail" alt="Picture of offer">
-        {{/if}}
       </div>
     </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <h3>Booking</h3>
+        {{#if message}}
+          <div class="alert alert-danger" role="alert">
+            {{message}}
+          </div>
+        {{/if}}
+        <form action="/offers/{{offer._id}}/book" method="POST">
+          {{{output}}}
+          {{!-- <button type="submit" class="btn btn-primary btn-lg">Book</button> --}}
+        </form>
+      </li>
+    </ul>
   </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">
-      <h3>Booking</h3>
-      {{#if message}}
-        <div class="alert alert-danger" role="alert">
-          {{message}}
-        </div>
-      {{/if}}
-      <form action="/offers/{{offer._id}}/book" method="POST">
-        {{{output}}}
-        <button type="submit" class="btn btn-primary btn-lg">Book</button>
-      </form>
-    </li>
-  </ul>
 </div>
