@@ -72,7 +72,6 @@ router.post('/rate/:id/', (req,res,next)=>{
 })
 
 router.post('/edit', uploader.single('photo'), (req, res, next) => {
-  console.log('here is the file ' + req.file)
   const currentUser = req.user;
   const {
     firstName,
@@ -83,7 +82,6 @@ router.post('/edit', uploader.single('photo'), (req, res, next) => {
   var imgName = "";
   var publicId = "";
   if (req.file) {
-    console.log('there was a file')
     imgPath = req.file.path;
     imgName = req.file.originalname;
     publicId = req.file.filename;
