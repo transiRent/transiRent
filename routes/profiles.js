@@ -49,21 +49,21 @@ router.get('/rate/:id', (req, res, next) => {
 })
 
 router.post('/rate/:id/', (req,res,next)=>{
-  const {rating} = req.body;
+  const currentUser = req.user; 
+  const {rating, comments} = req.body;
   User.findById(req.params.id)
   .then(user=>{
-    var newRating = 0;
-    var newNumberOfRatings = 0;
+    var newRating = {
+      ratedBy: currentUser._id,
+      rating: rating,
+      comments: comments
+    };
     var newAverageRating = 0;
-    if(!user.accumulatedRating){newRating=parseInt(rating)}
-    else{newRating = parseInt(user.accumulatedRating) + parseInt(rating);}
-    if(!user.numberOfRatings){newNumberOfRatings=1;}
-    else{newNumberOfRatings = parseInt(user.numberOfRatings) + 1;}
     if(!user.averageRating){newAverageRating=parseInt(rating);}
-    else{newAverageRating = Math.round(newRating/newNumberOfRatings);}
-
-    console.log('here is the new average ' + newAverageRating)
-    User.findByIdAndUpdate(req.params.id,{accumulatedRating:newRating, numberOfRatings: newNumberOfRatings, averageRating: newAverageRating})
+    else{
+      newAverageRating = average(user.ratings,newRating.rating);
+    }
+    User.findByIdAndUpdate(req.params.id,{$push:{ratings:newRating}, averageRating: newAverageRating})
     .then(res.redirect('/'))
     .catch(err=>{
       next(err)
@@ -72,7 +72,6 @@ router.post('/rate/:id/', (req,res,next)=>{
 })
 
 router.post('/edit', uploader.single('photo'), (req, res, next) => {
-  console.log('here is the file ' + req.file)
   const currentUser = req.user;
   const {
     firstName,
@@ -83,7 +82,6 @@ router.post('/edit', uploader.single('photo'), (req, res, next) => {
   var imgName = "";
   var publicId = "";
   if (req.file) {
-    console.log('there was a file')
     imgPath = req.file.path;
     imgName = req.file.originalname;
     publicId = req.file.filename;
@@ -104,6 +102,13 @@ router.post('/edit', uploader.single('photo'), (req, res, next) => {
     })
 })
 
+function average(arrayOfRatings, newestRating){
+  let count = 0;
+ for(let i = 0; i<arrayOfRatings.length; i++){
+    count += arrayOfRatings[i].rating;
+ }
+  return Math.round((count+parseInt(newestRating))/(arrayOfRatings.length+1));
+}
 
 
 module.exports = router;
