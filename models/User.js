@@ -13,8 +13,15 @@ const userSchema = new Schema({
   imgName: String,
   imgPath: String,
   publicId: String,
-  accumulatedRating: Number,
-  numberOfRatings: Number,
+  ratings: [{
+    ratedBy:{
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      default: null
+    },
+    rating: Number,
+    comments: String
+  }],
   averageRating: Number
 });
 
