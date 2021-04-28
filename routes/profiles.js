@@ -53,6 +53,16 @@ router.post('/rate/:id/', (req,res,next)=>{
   const {rating, comments} = req.body;
   User.findById(req.params.id)
   .then(user=>{
+    console.log(currentUser._id, user._id)
+    if(String(currentUser._id) === String(user._id)){
+      res.render(`users/userRating`, {message:'cannot rate your self!'})
+      return;
+    } 
+    if(haveIRatedBefore(currentUser._id,user.ratings)){
+      res.render(`users/userRating`, {message:'you have already rated this user'})
+      return;
+    }
+
     var newRating = {
       ratedBy: currentUser._id,
       rating: rating,
@@ -109,6 +119,10 @@ function average(arrayOfRatings, newestRating){
  }
   return Math.round((count+parseInt(newestRating))/(arrayOfRatings.length+1));
 }
-
-
+function haveIRatedBefore(id, ratingsArray){
+  for(let i = 0; i < ratingsArray.length; i++){
+    if(String(ratingsArray[i].ratedBy)===String(id)){return true;}
+  }
+  return false;
+}
 module.exports = router;

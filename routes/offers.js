@@ -159,7 +159,7 @@ router.post('/:id/book', loginCheck(), (req, res, next) => {
   Offer.findById(req.params.id)
     .then(offer => {
       const modified = offer.timeslots.map(times => req.body.time.includes(times._id.toString()) ? { _id: times._id, time: times.time, status: 'booked', bookedBy: req.user._id } : times)
-      console.log(modified);
+      // console.log(modified);
       Offer.findByIdAndUpdate(req.params.id, { timeslots: modified})
         .then(() => {
           res.redirect('/dashboard');

@@ -103,7 +103,7 @@ function organizeData(offersFromDB) {
          })
       });
    })
-   console.log('this is the organized data', geoOffers)
+   // console.log('this is the organized data', geoOffers)
    return geoOffers
 }
 
@@ -262,7 +262,7 @@ function createPopUp(currentFeature) {
    /** Check if there is already a popup on the map and if so, remove it */
    if (popUps[0]) popUps[0].remove();
 
-   console.log('current feature', currentFeature)
+   // console.log('current feature', currentFeature)
 
    var popup = new mapboxgl.Popup({
          closeOnClick: false
