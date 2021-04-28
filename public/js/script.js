@@ -1,3 +1,5 @@
+const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
 document.addEventListener(
   "DOMContentLoaded",
   () => {
@@ -21,7 +23,7 @@ document.querySelector('#add').onclick = () => {
   for (let date of dates) {
     output += `<div class="card mb-3">
                   <div class="card-header">
-                    <h5 class="card-title">${date}</h5>
+                    <h5 class="card-title">${weekdays[new Date(date).getDay()]}, ${date}</h5>
                   </div>
                   <div class="card-body">`;
     for (let time of times) {

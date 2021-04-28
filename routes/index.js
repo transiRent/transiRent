@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/User');
 const Offer = require('../models/Offer');
 const { loginCheck } = require('./middlewares');
+const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 /* GET home page */
 router.get("/", (req, res, next) => {
@@ -25,7 +26,7 @@ router.get("/dashboard", loginCheck(), (req, res, next) => {
       for (date of dates) {
         output += `<div class="card mb-3">
                     <div class="card-header">
-                      <h5 class="card-title">${date}</h5>
+                      <h5 class="card-title">${weekdays[new Date(date).getDay()]}, ${date}</h5>
                     </div>
                     <div class="card-body">`;
         for (time of times) {
@@ -75,7 +76,7 @@ router.get("/dashboard", loginCheck(), (req, res, next) => {
           for (date of dates) {
             output += `<div class="card mb-3">
                         <div class="card-header">
-                          <h5 class="card-title">${date}</h5>
+                          <h5 class="card-title">${weekdays[new Date(date).getDay()]}, ${date}</h5>
                         </div>
                         <div class="card-body">`;
             for (time of filteredTimes) {

@@ -4,6 +4,7 @@ const User = require('../models/User');
 const Offer = require('../models/Offer');
 const { loginCheck } = require('./middlewares');
 const { uploader, cloudinary } = require('../config/cloudinary');
+const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 router.get('/', (req, res, next) => {
   Offer.find().populate('owner bookedBy')
@@ -83,7 +84,7 @@ router.get('/:id', (req, res, next) => {
         for (let date of dates) {
           output += `<div class="card mb-3">
                       <div class="card-header">
-                        <h5 class="card-title">${date}</h5>
+                        <h5 class="card-title">${weekdays[new Date(date).getDay()]}, ${date}</h5>
                       </div>
                       <div class="card-body">`;
           for (let time of times) {
@@ -100,7 +101,7 @@ router.get('/:id', (req, res, next) => {
         for (let date of dates) {
           output += `<div class="card mb-3">
                       <div class="card-header">
-                        <h5 class="card-title">${date}</h5>
+                        <h5 class="card-title">${weekdays[new Date(date).getDay()]}, ${date}</h5>
                       </div>
                       <div class="card-body">`;
           for (let time of times) {
@@ -136,7 +137,7 @@ router.post('/:id/book', loginCheck(), (req, res, next) => {
       for (let date of dates) {
         output += `<div class="card mb-3">
                     <div class="card-header">
-                      <h5 class="card-title">${date}</h5>
+                      <h5 class="card-title">${weekdays[new Date(date).getDay()]}, ${date}</h5>
                     </div>
                     <div class="card-body">`;
         for (let time of times) {
@@ -213,7 +214,7 @@ router.get('/:id/edit', (req, res, next) => {
         for (let date of dates) {
           output += `<div class="card mb-3">
                       <div class="card-header">
-                        <h5 class="card-title">${date}</h5>
+                        <h5 class="card-title">${weekdays[new Date(date).getDay()]}, ${date}</h5>
                       </div>
                       <div class="card-body">`;
           for (let time of times) {
