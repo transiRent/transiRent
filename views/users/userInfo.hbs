@@ -17,6 +17,7 @@
 <p>average user rating for {{username}}: {{averageRating}}</p>
 <img height="15px" src="/images/{{averageRating}}star" alt="star logo">
 {{/if}}
+
 <h5>{{username}}'s offers: </h5>
 {{/with}}
 {{#if offersInfo}}
@@ -27,4 +28,11 @@
   </div>
   {{/each}}
 </div>
+{{/if}}
+{{#if ratingsInfo}}
+<h3>User ratings: </h3>
+{{#each ratingsInfo}}
+<p>Rating: {{rating}}</p>
+<p>Comments: {{comments}}</p>
+{{/each}}
 {{/if}}

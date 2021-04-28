@@ -24,12 +24,23 @@ router.get('/edit', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
   User.findById(req.params.id)
     .then(user => {
+      var firstFiveRatings = [];
+      var count = 0;
+      if(user.ratings.length<=5){count = user.ratings.length}
+      else{count = 5}
+      for(let i = 0; i<count; i++){
+        firstFiveRatings.push(user.ratings[i]);
+        // count++;
+        console.log('doing it')
+      }
+      console.log(firstFiveRatings)
       Offer.findOne({
         owner: user._id
       }).then(offers =>
         res.render('users/userInfo', {
           userInfo: user,
-          offersInfo: offers
+          offersInfo: offers,
+          ratingsInfo: firstFiveRatings
         })
       )
     })
