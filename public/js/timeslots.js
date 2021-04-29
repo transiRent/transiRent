@@ -1,13 +1,5 @@
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
-    console.log("transiRent JS imported successfully!");
-  },
-  false
-);
-
 document.querySelector('#add').onclick = () => {
   const startDate = new Date(document.querySelector('#start').value);
   const endDate = new Date(document.querySelector('#end').value);
