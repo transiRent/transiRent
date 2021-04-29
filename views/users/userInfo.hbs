@@ -1,25 +1,78 @@
+
 {{#with userInfo}}
-<h1>{{username}}'s public profile</h1>
-{{#if firstName}}
-<p>First name: {{firstName}}</p>
-{{/if}}
-{{#if lastName}}
-<p>Last name: {{lastName}}</p>
-{{/if}}
-{{#if description}}
-<p>Description: {{description}}</p>
-{{/if}}
-{{#if imgPath}}
+<div class="p-3">
+  <div class="card">
+    <div class="card-header">{{username}}'s public profile</div>
+    <div class="card-body">
+    <div class="row">
+      <div class="col-4">
+        <div class="card">
+          <div class="card-header">
 <p>Profile picture:</p>
-<img src="{{imgPath}}" height="100px" alt="profile-pic">
-{{/if}}
+          </div>
+{{#if imgPath}}
+          <div class="card-body">
+<img class="card-img-top" src="{{imgPath}}" alt="profile-pic">
+          </div>
+{{/if}}        
+        </div>
+      </div>
+      <div class="col-8">
+        <div class="card">
+          <div class="card-header">average user rating for {{username}}</div>
+          <div class="card-body">
 {{#if averageRating}}
 <p>average user rating for {{username}}:</p>
 <img height="15px" src="/images/{{averageRating}}star.png" alt="star logo">
 {{/if}}
 <a href="/profiles/rate/{{_id}}">rate this user</a>
-<h5>{{username}}'s offers: </h5>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">first name</div>
+          <div class="card-body">
+{{#if firstName}}
+<p>First name: {{firstName}}</p>
+{{/if}}
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">second name</div>
+          <div class="card-body">
+{{#if lastName}}
+<p>Last name: {{lastName}}</p>
+{{/if}}
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">about</div>
+          <div class="card-body">
+{{#if description}}
+<p>Description: {{description}}</p>
+{{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
 {{/with}}
+    <div class="row">
+      <div class="col-6">
+        <div class="card-header">selected reviews</div>
+        <div class="card-body">
+{{#if ratingsInfo}}
+<h3>Top user ratings: </h3>
+{{#each ratingsInfo}}
+<div class="card">
+  <div class="card-header"><p>Rating: {{rating}}</p></div>
+  <div class="card-body"><p>Comments: {{comments}}</p></div>
+</div>
+{{/each}}
+{{/if}}
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="card-header">offers</div>
+        <div class="card-body">
 {{#if offersInfo}}
 <div>
   {{#each offersInfo}}
@@ -28,11 +81,11 @@
   </div>
   {{/each}}
 </div>
-{{/if}}
-{{#if ratingsInfo}}
-<h3>Top user ratings: </h3>
-{{#each ratingsInfo}}
-<p>Rating: {{rating}}</p>
-<p>Comments: {{comments}}</p>
-{{/each}}
-{{/if}}
+{{/if}}          
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
