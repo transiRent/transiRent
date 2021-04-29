@@ -5,7 +5,9 @@
   </div>
   <div class="card mb-3">
     <a class="card-header" style="color: black; text-decoration: none;" data-bs-toggle="collapse" href="#collapseratings" role="button" aria-expanded="false" aria-controls="collapseratings">
+      {{#if user.averageRating}}
       <h4 class="card-title">Your Rating <img height="20px" src="/images/{{user.averageRating}}star.png" alt="star logo"></h4>
+      {{/if}}
     </a>
     <div class="collapse" id="collapseratings">
         <div class="card-body">
@@ -13,7 +15,7 @@
           <div class="card mb-3">
             <div class="card-header">
               <a href="/profiles/{{this.ratedBy._id}}">{{this.ratedBy.username}}</a>
-              <img height="15px" src="/images/{{rating}}star.png" alt="star logo">
+              <img height="15px" src="/images/{{this.rating}}star.png" alt="star logo">
             </div>
             <div class="card-body">
               <p>{{this.comments}}</p>
