@@ -107,21 +107,33 @@ router.post('/edit',loginCheck(), uploader.single('photo'), (req, res, next) => 
     imgPath = req.file.path;
     imgName = req.file.originalname;
     publicId = req.file.filename;
-  }
-  User.findByIdAndUpdate(currentUser._id, {
+    User.findByIdAndUpdate(currentUser._id, {
+        firstName: firstName,
+        lastName: lastName,
+        description: description,
+        imgPath: imgPath,
+        imgName: imgName,
+        publicId: publicId
+      })
+      .then(user => {
+        res.redirect(`/profiles/${user._id}`);
+      })
+      .catch(err => {
+        next(err);
+      })
+  } else {
+    User.findByIdAndUpdate(currentUser._id, {
       firstName: firstName,
       lastName: lastName,
-      description: description,
-      imgPath: imgPath,
-      imgName: imgName,
-      publicId: publicId
+      description: description
     })
     .then(user => {
-      res.redirect('/profiles');
+      res.redirect(`/profiles/${user._id}`);
     })
     .catch(err => {
       next(err);
     })
+  }
 })
 
 router.post('/delete', (req, res, next) => {
