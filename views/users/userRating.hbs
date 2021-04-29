@@ -1,99 +1,56 @@
 {{#with userInfo}}
-  <div class="p-3">
-    <div class="card">
-      <div class="card-header">
-        <h2 class="card-title">Rate {{username}}</h2>
+<div class="container md p-3">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title">Rate {{username}}</h2>
+    </div>
+    <div class="row p-3">
+      <div class="col-4">
+        {{#if imgPath}}
+        <img class="img-thumbnail" style="width: 100%;" src="{{imgPath}}" alt="profile-pic" />
+        {{/if}}
       </div>
-      <div class="row">
-        <div class="col-4 p-4">
-          {{#if imgPath}}
-            <img class="img-thumbnail" src="{{imgPath}}" alt="profile-pic" />
-          {{/if}}
-        </div>
-        <div class="col-8 p-4">
-          <div class="row">
-            <form action="/profiles/rate/{{_id}}" method="POST">
-              <div class="btn-group mb-3" role="group">
-                <input
-                  type="radio"
-                  class="btn-check"
-                  name="rating"
-                  id="1"
-                  value="1"
-                />
-                <label class="btn btn-outline-primary" for="1">
-                  1
-                </label>
-                <input
-                  type="radio"
-                  class="btn-check"
-                  name="rating"
-                  id="2"
-                  value="2"
-                />
-                <label class="btn btn-outline-primary" for="2">
-                  2
-                </label>
-                <input
-                  type="radio"
-                  class="btn-check"
-                  name="rating"
-                  id="3"
-                  value="3"
-                />
-                <label class="btn btn-outline-primary" for="3">
-                  3
-                </label>
-                <input
-                  type="radio"
-                  class="btn-check"
-                  name="rating"
-                  id="4"
-                  value="4"
-                />
-                <label class="btn btn-outline-primary" for="4">
-                  4
-                </label>
-                <input
-                  type="radio"
-                  class="btn-check"
-                  name="rating"
-                  id="5"
-                  value="5"
-                />
-                <label class="btn btn-outline-primary" for="5">
-                  5
-                </label>
-              </div>
-              <div class="form-floating mb-3">
-                <textarea
-                  class="form-control"
-                  placeholder="Comments for {{username}}"
-                  name="comments"
-                  id="comments"
-                ></textarea>
-                <label for="comments">
-                  Comment
-                </label>
-              </div>
-              <button type="submit" class="btn btn-primary btn-lg">
-                Rate 
-                {{username}}
-              </button>
-            </form>
-{{/with}}
-          </div>
-          {{#if message}}
-            <div class="alert alert-danger" role="alert">
-              {{message}}
+      <div class="col-8">
+        <div class="row">
+          <form action="/profiles/rate/{{_id}}" method="POST">
+            <h3>Rating:</h3>
+            <div class="btn-group mb-3" role="group">
+              <input type="radio" class="btn-check" name="rating" id="1" value="1" />
+              <label class="btn btn-outline-primary" for="1">
+                1
+              </label>
+              <input type="radio" class="btn-check" name="rating" id="2" value="2" />
+              <label class="btn btn-outline-primary" for="2">
+                2
+              </label>
+              <input type="radio" class="btn-check" name="rating" id="3" value="3" />
+              <label class="btn btn-outline-primary" for="3">
+                3
+              </label>
+              <input type="radio" class="btn-check" name="rating" id="4" value="4" />
+              <label class="btn btn-outline-primary" for="4">
+                4
+              </label>
+              <input type="radio" class="btn-check" name="rating" id="5" value="5" />
+              <label class="btn btn-outline-primary" for="5">
+                5
+              </label>
             </div>
-            <div class="btn-lg">
-              <a href="/">
-                go back
-              </a>
+            <div class="form-floating mb-3">
+              <textarea class="form-control" placeholder="Comments for {{username}}" name="comments" id="comments"
+                style="height: 200px"></textarea>
+              <label for="comments">
+                Comment
+              </label>
             </div>
-          {{/if}}
+            <button type="submit" class="btn btn-primary btn-lg">
+              Rate
+              {{username}}
+            </button>
+          </form>
+          {{/with}}
         </div>
       </div>
     </div>
   </div>
+</div>

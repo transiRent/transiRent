@@ -1,13 +1,16 @@
-<div class="p-3">
+<div class="container md p-3">
   <div class="mb-3">
     <a class="btn btn-primary btn-lg" href="/offers/create" role="button">Create an Offer</a>
     <a class="btn btn-primary btn-lg" href="/profiles/edit" role="button">Edit Profile</a>
   </div>
   <div class="card mb-3">
     <a class="card-header" style="color: black; text-decoration: none;" data-bs-toggle="collapse" href="#collapseratings" role="button" aria-expanded="false" aria-controls="collapseratings">
+      <h4 class="card-title">
+        Your Rating 
       {{#if user.averageRating}}
-      <h4 class="card-title">Your Rating <img height="20px" src="/images/{{user.averageRating}}star.png" alt="star logo"></h4>
+        <img height="20px" src="/images/{{user.averageRating}}star.png" alt="star logo">
       {{/if}}
+      </h4>
     </a>
     <div class="collapse" id="collapseratings">
         <div class="card-body">
@@ -54,7 +57,9 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <p>Do you really want to delete this offer?</p>
+                  <div class="alert alert-danger" role="alert">
+                    Do you really want to delete this offer?
+                  </div>
                   <p><span class="badge bg-primary">{{this.type}}</span> {{this.name}}</p>
                 </div>
                 <div class="modal-footer">
@@ -104,7 +109,9 @@
                 </button>
               </div>
               <div class="modal-body">
-                <p>Do you really want to cancel this booking?</p>
+                <div class="alert alert-danger" role="alert">
+                  Do you really want to cancel this booking?
+                </div>
                 <p><span class="badge bg-primary">{{this.type}}</span> {{this.name}}</p>
               </div>
               <div class="modal-footer">

@@ -1,110 +1,94 @@
-
 {{#with userInfo}}
-<div class="p-3">
+<div class="container md p-3">
   <div class="card">
     <div class="card-header">
-      <h2 class="card-title">{{username}}'s public profile</h2>
+      <h2 class="card-title">
+        {{username}}'s public profile
+        {{#if averageRating}}
+        <img height="20px" src="/images/{{averageRating}}star.png" alt="star logo">
+        {{/if}}
+        <a href="/profiles/rate/{{_id}}" class="btn btn-primary btn-sm" tabindex="-1" role="button">Rate User</a>
+      </h2>
     </div>
     <div class="card-body">
-    <div class="row">
-      <div class="col-4">
-        <div class="card">
-          <div class="card-header">
-<p>Profile picture:</p>
-          </div>
-{{#if imgPath}}
-          <div class="card-body">
-<img class="card-img-top" src="{{imgPath}}" alt="profile-pic">
-          </div>
-{{/if}}        
+      <div class="row mb-3">
+        {{#if ../message}}
+        <div class="alert alert-danger" role="alert">
+          {{../message}}
         </div>
+        {{/if}}
+        <div class="col-7">
+          <div class="card mb-3">
+            <div class="card-header">Full Name</div>
+            <div class="card-body">
+              <p>
+                {{#if firstName}}
+                {{firstName}}
+                {{/if}}
+                {{#if lastName}}
+                {{lastName}}
+                {{/if}}
+              </p>
+            </div>
+          </div>
+          <div class="card mb-3">
+            <div class="card-header">Email</div>
+            <div class="card-body">
+              {{#if email}}
+              <p></p><a href="mailto:{{email}}">{{email}}</a></p>
+              {{else}}
+              <p>-</p>
+              {{/if}}
+            </div>
+          </div>
+          <div class="card mb-3">
+            <div class="card-header">About</div>
+            <div class="card-body">
+              {{#if description}}
+              <p>{{description}}</p>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+        {{#if imgPath}}
+        <div class="col-5">
+          <img class="img-thumbnail" style="width: 100%;" src="{{imgPath}}" alt="profile-pic">
+        </div>
+        {{/if}}
       </div>
-      <div class="col-8">
-        <div class="card">
-          <div class="card-header">average user rating for {{username}}</div>
-          <div class="card-body">
-{{#if averageRating}}
-<p>average user rating for {{username}}:</p>
-<img height="15px" src="/images/{{averageRating}}star.png" alt="star logo">
-{{/if}}
-<a href="/profiles/rate/{{_id}}">rate this user</a>
+      {{/with}}
+      <div class="row">
+        {{#if ratingsInfo}}
+        <div class="col-6">
+          <h3>Top user ratings: </h3>
+          {{#each ratingsInfo}}
+          <div class="card mb-3">
+            <div class="card-header">
+              <a href="/profiles/{{ratedBy._id}}">{{ratedBy.username}}</a>
+              <img height="15px" src="/images/{{rating}}star.png" alt="star logo">
+            </div>
+            <div class="card-body">
+              <p>{{comments}}</p>
+            </div>
           </div>
+          {{/each}}
         </div>
-        <div class="card">
-          <div class="card-header">first name</div>
-          <div class="card-body">
-{{#if firstName}}
-<p>{{firstName}}</p>
-{{/if}}
+        {{/if}}
+        {{#if offersInfo}}
+        <div class="col-6">
+          <h3>{{userInfo.username}}'s offers: </h3>
+          {{#each offersInfo}}
+          <div class="card mb-3">
+            <a class="card-header" style="color: black; text-decoration: none;" href="/offers/{{_id}}"><span
+                class="badge bg-primary">{{type}}</span> {{name}}</a>
+            <div class="card-body">
+              <p>{{address.street}} {{address.number}}, {{address.code}} {{address.city}}</p>
+            </div>
           </div>
+          {{/each}}
         </div>
-        <div class="card">
-          <div class="card-header">second name</div>
-          <div class="card-body">
-{{#if lastName}}
-<p>{{lastName}}</p>
-{{/if}}
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header">email address</div>
-          <div class="card-body">
-{{#if email}}
-<p>{{email}}</p>
-{{/if}}
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header">about</div>
-          <div class="card-body">
-{{#if description}}
-<p>{{description}}</p>
-{{/if}}
-          </div>
-        </div>
+        {{/if}}
       </div>
-    </div>
-{{/with}}
-    <div class="row">
-      <div class="col-6">
-        <div class="card-header">selected reviews</div>
-        <div class="card-body">
-{{#if ratingsInfo}}
-<h3>Top user ratings: </h3>
-{{#each ratingsInfo}}
-<div class="card mb-3">
-  <div class="card-header">
-    <a href="/profiles/{{ratedBy._id}}">{{ratedBy.username}}</a>
-    <img height="15px" src="/images/{{rating}}star.png" alt="star logo">
-  </div>
-  <div class="card-body">
-    <p>{{comments}}</p>
-  </div>
-</div>
-{{!-- <div class="card">
-  <div class="card-header"><p>Rating: {{rating}}</p></div>
-  <div class="card-body"><p>Comments: {{comments}}</p></div>
-</div> --}}
-{{/each}}
-{{/if}}
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="card-header">offers</div>
-        <div class="card-body">
-{{#if offersInfo}}
-<div>
-  {{#each offersInfo}}
-  <div>
-    <p><a href="/offers/{{_id}}">{{name}}</a></p>
-  </div>
-  {{/each}}
-</div>
-{{/if}}          
-        </div>
-      </div>
-    </div>
     </div>
   </div>
 </div>
-

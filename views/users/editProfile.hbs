@@ -1,5 +1,5 @@
 {{#with user}}
-<div class="p-3">
+<div class="container md p-3">
   <div class="card">
     <div class="card-header">
       <h2 class="card-title">Edit profile</h2>
@@ -18,7 +18,7 @@
         </div>
         <div class="form-floating mb-3">
           <textarea class="form-control" placeholder="About me" name="description" id="description"
-            style="height: 100px">{{description}}</textarea>
+            style="height: 200px">{{description}}</textarea>
           <label for="description">About me</label>
         </div>
         <div class="form-floating mb-3">
@@ -35,7 +35,7 @@
     </div>
   </div>
   <!-- Button trigger modal -->
-  <button type="button" class="btn btn-danger btn-lg m-3" data-toggle="modal" data-target="#exampleModal">
+  <button type="button" class="btn btn-danger btn m-3" data-toggle="modal" data-target="#exampleModal">
     Delete Account
   </button>
 
@@ -51,7 +51,9 @@
           </button>
         </div>
         <div class="modal-body">
-          <p>Do you really want to delete your account?</p>
+          <div class="alert alert-danger" role="alert">
+            Do you really want to delete your account?
+          </div>
           <p>All your offers and bookings will be deleted</p>
         </div>
         <div class="modal-footer">
