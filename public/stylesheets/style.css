@@ -77,7 +77,7 @@ ul li {
 .listings .item {
   display: block;
   border-bottom: 1px solid #eee;
-  padding: 10px;
+  padding: 10px 15px 22px 15px;
   text-decoration: none;
 }
 
@@ -113,17 +113,6 @@ ul li {
 
 .listings .item.active {
   background-color: #f8f8f8;
-}
-
-::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
-  border-left: 0;
-  background: rgba(0, 0, 0, 0.1);
-}
-
-::-webkit-scrollbar-track {
-  background: none;
 }
 
 .clearfix {
@@ -221,4 +210,25 @@ button.close {
   border: none;
   background: none;
   font-size: 22px;
+}
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 122px);
+  width: 100%;
+  text-align: center;
+  padding: 0 20%;
+  background-image: linear-gradient(#20196D, #342BB4);
+  color: white;
+}
+
+footer {
+  font-size: 15px;
+}
+
+.github:hover {
+  color: #0d6efd !important;
 }
