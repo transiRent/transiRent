@@ -250,9 +250,9 @@ router.post('/:id/edit', loginCheck(), uploader.single('photo'), (req, res, next
       city
     }
     if (req.file) {
-      imgPath = req.file.path;
-      imgName = req.file.originalname;
-      publicId = req.file.filename;
+      const imgPath = req.file.path;
+      const imgName = req.file.originalname;
+      const publicId = req.file.filename;
       Offer.findByIdAndUpdate(req.params.id, { name, type, description, imgPath, imgName, publicId, address, timeslots, price })
         .then(() => {
           res.redirect('/dashboard');
