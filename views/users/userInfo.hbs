@@ -2,7 +2,9 @@
 {{#with userInfo}}
 <div class="p-3">
   <div class="card">
-    <div class="card-header">{{username}}'s public profile</div>
+    <div class="card-header">
+      <h2 class="card-title">{{username}}'s public profile</h2>
+    </div>
     <div class="card-body">
     <div class="row">
       <div class="col-4">
@@ -70,10 +72,19 @@
 {{#if ratingsInfo}}
 <h3>Top user ratings: </h3>
 {{#each ratingsInfo}}
-<div class="card">
+<div class="card mb-3">
+  <div class="card-header">
+    <a href="/profiles/{{ratedBy._id}}">{{ratedBy.username}}</a>
+    <img height="15px" src="/images/{{rating}}star.png" alt="star logo">
+  </div>
+  <div class="card-body">
+    <p>{{comments}}</p>
+  </div>
+</div>
+{{!-- <div class="card">
   <div class="card-header"><p>Rating: {{rating}}</p></div>
   <div class="card-body"><p>Comments: {{comments}}</p></div>
-</div>
+</div> --}}
 {{/each}}
 {{/if}}
         </div>

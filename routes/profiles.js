@@ -24,6 +24,7 @@ router.get('/edit',loginCheck(), (req, res, next) => {
 
 router.get('/:id',loginCheck(), (req, res, next) => {
   User.findById(req.params.id)
+    .populate('ratings.ratedBy')
     .then(user => {
       var firstFiveRatings = [];
       var count = 0;

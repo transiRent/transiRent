@@ -2,11 +2,10 @@
   <div class="p-3">
     <div class="card">
       <div class="card-header">
-        how would you rate
-        {{username}}
+        <h2 class="card-title">Rate {{username}}</h2>
       </div>
       <div class="row">
-        <div class="col-4">
+        <div class="col-4 p-4">
           {{#if imgPath}}
             <img class="img-thumbnail" src="{{imgPath}}" alt="profile-pic" />
           {{/if}}
@@ -74,11 +73,11 @@
                   id="comments"
                 ></textarea>
                 <label for="comments">
-                  comments
+                  Comment
                 </label>
               </div>
               <button type="submit" class="btn btn-primary btn-lg">
-                leave your rating for
+                Rate 
                 {{username}}
               </button>
             </form>
