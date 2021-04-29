@@ -89,8 +89,6 @@ function organizeData(offersFromDB) {
       features: []
    }
 
-   // console.log('offers from db: ',offersFromDB)
-
    offersFromDB.forEach(offer => {
       const { city, street, number, code } = offer.address;
       const address = `${street} ${number}, ${code} ${city}`;
@@ -115,7 +113,6 @@ function organizeData(offersFromDB) {
          })
       });
    })
-   // console.log('this is the organized data', geoOffers)
    return geoOffers
 }
 
@@ -140,7 +137,7 @@ function buildLocationList(data) {
 
       /* Add the link to the individual listing created above. */
       var link = listing.appendChild(document.createElement('a'));
-      link.href = '#';
+      link.href = '#map-container';
       link.className = 'title';
       link.id = "link-" + prop.id;
       link.innerHTML = prop.title;
