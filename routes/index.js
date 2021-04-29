@@ -24,6 +24,7 @@ router.get("/dashboard", loginCheck(), (req, res, next) => {
         });
         const dates = new Set(times.map(time => time.day));
         output = '';
+        let profit = 0;
         let offerBooked = '';
         for (date of dates) {
           output += `<div class="card mb-3">
@@ -39,6 +40,7 @@ router.get("/dashboard", loginCheck(), (req, res, next) => {
                 offerBooked = 'disabled';
                 disabled = '';
                 outline = '';
+                profit++;
               }
               output += `<a href="/profiles/${time.bookedBy}" class="btn btn-${outline}primary btn-sm ${disabled} m-1" tabindex="-1" role="button">${time.hour}:00</a>`
             }
@@ -49,6 +51,7 @@ router.get("/dashboard", loginCheck(), (req, res, next) => {
                       <a href="/offers/${offer._id}/edit" class="btn btn-primary btn-lg" tabindex="-1" role="button"><i class="bi bi-pencil-fill"></i></a>
                       <button type="submit" class="btn btn-danger btn-lg" ${offerBooked}><i class="bi bi-trash-fill"></i></button>
                    </form>`;
+        profit *= offer.price;
         return {
           address: offer.address,
           _id: offer._id,
@@ -58,6 +61,7 @@ router.get("/dashboard", loginCheck(), (req, res, next) => {
           imgPath: offer.imgPath,
           imgName: offer.imgName,
           publicId: offer.publicId,
+          profit,
           output
         };
       })
@@ -76,7 +80,7 @@ router.get("/dashboard", loginCheck(), (req, res, next) => {
             const filteredTimes = times.filter(time => time != null);
             const dates = new Set(filteredTimes.map(time => time.day));
             output = '';
-            console.log(booking.owner);
+            let cost = 0;
             for (date of dates) {
               output += `<div class="card mb-3">
                           <div class="card-header">
@@ -85,6 +89,7 @@ router.get("/dashboard", loginCheck(), (req, res, next) => {
                           <div class="card-body">`;
               for (time of filteredTimes) {
                 if (time.day === date) {
+                  cost++;
                   output += `<a href="/offers/${booking._id}" class="btn btn-primary btn-sm m-1" tabindex="-1" role="button">${time.hour}:00</a>`
                 }
               }
@@ -94,6 +99,7 @@ router.get("/dashboard", loginCheck(), (req, res, next) => {
                           <a href="/offers/${booking._id}" class="btn btn-primary btn-lg" tabindex="-1" role="button"><i class="bi bi-pencil-fill"></i></a>
                           <button type="submit" class="btn btn-danger btn-lg"><i class="bi bi-trash-fill"></i></button>
                       </form>`;
+            cost *= booking.price;
             return {
               address: booking.address,
               _id: booking._id,
@@ -104,6 +110,7 @@ router.get("/dashboard", loginCheck(), (req, res, next) => {
               imgPath: booking.imgPath,
               imgName: booking.imgName,
               publicId: booking.publicId,
+              cost,
               output
             };
           })
