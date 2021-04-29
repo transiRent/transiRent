@@ -11,14 +11,15 @@
   </div>
   <div id='map' style='width: calc(100vw - 300px); height: 100vh;'></div>
 </div>
-{{/unless}}
 
+{{else}}
 <div id="map-container" class="map-container">
   <div class='sidebar' style="overflow: auto; width: 300px; height: calc(100vh - 122px);">
     <div id='listings' class='listings'></div>
   </div>
   <div id='map' style='width: calc(100vw - 300px); height: calc(100vh - 122px);'></div>
 </div>
+{{/unless}}
 
 <footer class="container-fluid bg-light text-dark py-4 px-3">
   <p class="m-0">Designed and build by Markus, Alex and Jan.</p>
