@@ -32,43 +32,36 @@
 
 </head>
 <header>
-   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+   <nav class="navbar navbar-light bg-light">
       <div class="container-fluid">
          <a class="navbar-brand" href="/">
             <img src="/images/transiRent-logo.png" alt="transiRent logo" height="96">
+            Find offers
          </a>
-         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-         </button>
-         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-               <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="/offers">Offers</a>
-               </li>
-               {{#if user}}
-               <li class="nav-item">
-                  <a class="nav-link" href="/profiles">Profile</a>
-               </li>
-               <li class="nav-item">
-                  <a class="nav-link" href="/logout">Log Out</a>
-               </li>
+         {{#if user}}
+         <div class="dropdown">
+            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+               <img class="img-thumbnail" src="{{user.imgPath}}" style="height: 90px;" alt="profile-pic">
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+               <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
+               <li><a class="dropdown-item" href="/offers/create">Create Offer</a></li>
+               <li><a class="dropdown-item" href="/profiles/edit">Edit profile</a></li>
+               <li><a class="dropdown-item" href="/logout">Log Out</a></li>
             </ul>
-            <a class="btn btn-primary btn-lg" href="/dashboard" role="button">Dashboard</a>
-            {{else}}
-               <li class="nav-item">
-                  <a class="nav-link" href="/signup">Sign Up</a>
-               </li>
-            </ul>
-            <a class="btn btn-primary btn-lg" href="/login" role="button">Log In</a>
-            {{/if}}
          </div>
+         {{else}}
+         <div>
+            <a class="btn btn-outline-primary btn-lg" href="/signup" role="button">Sign Up</a>
+            <a class="btn btn-primary btn-lg" href="/login" role="button">Log In</a>
+         </div>
+         {{/if}}
       </div>
    </nav>
 </header>
 
 <body>
-   {{{body}}}
-   <script src="/js/script.js"></script>   
+   {{{body}}} 
 </body>
 
 </html>

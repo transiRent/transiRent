@@ -11,7 +11,10 @@ const userSchema = new Schema({
   lastName: String,
   description: String,
   imgName: String,
-  imgPath: String,
+  imgPath: {
+    type: String,
+    default: '/images/anonymous.png'
+  },
   publicId: String,
   ratings: [{
     ratedBy:{

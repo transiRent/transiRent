@@ -89,7 +89,7 @@ function organizeData(offersFromDB) {
       features: []
    }
 
-   console.log('offers from db: ',offersFromDB)
+   // console.log('offers from db: ',offersFromDB)
 
    offersFromDB.forEach(offer => {
       const { city, street, number, code } = offer.address;
