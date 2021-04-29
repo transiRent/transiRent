@@ -68,9 +68,8 @@ router.get("/rate/:id", loginCheck(), (req, res, next) => {
       }
       Offer.find({owner: user._id})
         .then((offers) => {
-          console.log(String(currentUser._id), String(user._id))
+          console.log(currentUser._id, user.ratings)
           if (String(currentUser._id) === String(user._id)) {
-            console.log('check');
             res.render("users/userInfo", {
               user: req.user,
               userInfo: user,
@@ -79,8 +78,7 @@ router.get("/rate/:id", loginCheck(), (req, res, next) => {
               message: "You cannot rate yourself"
             })
             return
-          }
-          if (haveIRatedBefore(currentUser._id, user.ratings)) {
+          } else if (haveIRatedBefore(currentUser._id, user.ratings)) {
             res.render("users/userInfo", {
               user: req.user,
               userInfo: user,
@@ -201,7 +199,7 @@ function average(arrayOfRatings, newestRating) {
 }
 function haveIRatedBefore(id, ratingsArray) {
   for (let i = 0; i < ratingsArray.length; i++) {
-    if (String(ratingsArray[i].ratedBy) === String(id)) {
+    if (String(ratingsArray[i].ratedBy._id) === String(id)) {
       return true;
     }
   }
