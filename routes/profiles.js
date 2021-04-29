@@ -100,12 +100,14 @@ router.post('/edit',loginCheck(), uploader.single('photo'), (req, res, next) => 
   const {
     firstName,
     lastName,
+    email,
     description
   } = req.body;
   if (req.file) {
     User.findByIdAndUpdate(currentUser._id, {
         firstName: firstName,
         lastName: lastName,
+        email: email,
         description: description,
         imgPath: req.file.path,
         imgName: req.file.originalname,
@@ -122,6 +124,7 @@ router.post('/edit',loginCheck(), uploader.single('photo'), (req, res, next) => 
     User.findByIdAndUpdate(currentUser._id, {
       firstName: firstName,
       lastName: lastName,
+      email: email, 
       description: description
     })
     .then(user => {
