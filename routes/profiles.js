@@ -113,6 +113,7 @@ router.post('/edit',loginCheck(), uploader.single('photo'), (req, res, next) => 
       })
       .then(user => {
         res.redirect(`/`);
+
       })
       .catch(err => {
         next(err);
@@ -125,6 +126,7 @@ router.post('/edit',loginCheck(), uploader.single('photo'), (req, res, next) => 
     })
     .then(user => {
       res.redirect(`/`);
+
     })
     .catch(err => {
       next(err);
