@@ -1,14 +1,41 @@
 <div class="p-3">
   <div class="mb-3">
     <a class="btn btn-primary btn-lg" href="/offers/create" role="button">Create an Offer</a>
-    <a class="btn btn-primary btn-lg" href="/profiles/edit/" role="button">Edit Profile</a>
+    <a class="btn btn-primary btn-lg" href="/profiles/edit" role="button">Edit Profile</a>
   </div>
-  <h3>Offers</h3>
+  <div class="card mb-3">
+    <a class="card-header" style="color: black; text-decoration: none;" data-bs-toggle="collapse" href="#collapseratings" role="button" aria-expanded="false" aria-controls="collapseratings">
+      <h4 class="card-title">Your Rating <img height="20px" src="/images/{{user.averageRating}}star.png" alt="star logo"></h4>
+    </a>
+    <div class="collapse" id="collapseratings">
+        <div class="card-body">
+          {{#each user.ratings}}
+          <div class="card mb-3">
+            <div class="card-header">
+              <a href="/profiles/{{this.ratedBy._id}}">{{this.ratedBy.username}}</a>
+              <img height="15px" src="/images/{{this.rating}}star.png" alt="star logo">
+            </div>
+            <div class="card-body">
+              <p>{{this.comments}}</p>
+            </div>
+          </div>
+          {{/each}}
+      </div>
+    </div>
+  </div>
+  <h3>Your Offers</h3>
   {{#each modifiedOffers}}
   <div class="card mb-3">
     <a class="card-header" style="color: black; text-decoration: none;" data-bs-toggle="collapse" href="#collapseo{{this._id}}" role="button" aria-expanded="false" aria-controls="collapseo{{this._id}}">
-      <h4 class="card-title">{{this.name}} <span class="badge bg-primary">{{this.type}}</span></h4>
-      {{this.address.street}} {{this.address.number}}, {{this.address.code}}{{this.address.city}}
+      <div class="row">
+        <div class="col-10">
+          <h4 class="card-title"><span class="badge bg-primary">{{this.type}}</span> {{this.name}}</h4>
+          {{this.address.street}} {{this.address.number}}, {{this.address.code}} {{this.address.city}}
+        </div>
+        <div class="col-2">
+          <h4 class="text-end"><span class="badge bg-success">+ {{this.profit}},00 EUR</span></h4>
+        </div>
+      </div>
     </a>
     <div class="collapse" id="collapseo{{this._id}}">
       <div class="card-body">
@@ -18,19 +45,27 @@
   </div>
   {{/each}}
 
-  <h3>Bookings</h3>
+  <h3>Your Bookings</h3>
   {{#each modifiedBookings}}
   <div class="card mb-3">
     <a class="card-header" style="color: black; text-decoration: none;" data-bs-toggle="collapse" href="#collapseb{{this._id}}" role="button" aria-expanded="false" aria-controls="collapseb{{this._id}}">
-      <h4 class="card-title">{{this.name}} <span class="badge bg-primary">{{this.type}}</span></h4>
-      {{this.address.street}} {{this.address.number}}, {{this.address.code}}{{this.address.city}}
+      <div class="row">
+        <div class="col-10">
+          <h4 class="card-title"><span class="badge bg-primary">{{this.type}}</span> {{this.name}}</h4>
+          {{this.address.street}} {{this.address.number}}, {{this.address.code}} {{this.address.city}}
+        </div>
+        <div class="col-2">
+          <h4 class="text-end"><span class="badge bg-danger">- {{this.cost}},00 EUR</span></h4>
+        </div>
+      </div>
     </a>
     <div class="collapse" id="collapseb{{this._id}}">
       <div class="card-body">
-        <form action="/offers/{{this._id}}/edit" method="GET">
-          {{{this.output}}}
-          {{!-- <button type="submit" class="btn btn-primary btn-lg">Edit</button> --}}
-        </form>
+        <h5>
+          Host: <a href="/profiles/{{owner._id}}">{{owner.username}}</a>
+          <a href="/profiles/rate/{{owner._id}}" class="btn btn-primary btn-sm" tabindex="-1" role="button">Review</a>
+        </h5>
+        {{{this.output}}}
       </div>
     </div>
   </div>

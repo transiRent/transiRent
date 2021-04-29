@@ -39,6 +39,7 @@ router.get('/:id',loginCheck(), (req, res, next) => {
         owner: user._id
       }).then(offers =>
         res.render('users/userInfo', {
+          user: req.user,
           userInfo: user,
           offersInfo: offers,
           ratingsInfo: firstFiveRatings
@@ -52,6 +53,7 @@ router.get('/rate/:id',loginCheck(), (req, res, next) => {
   User.findById(req.params.id)
     .then(user => {
       res.render('users/userRating', {
+        user: req.user,
         userInfo: user
       })
     })
@@ -67,11 +69,11 @@ router.post('/rate/:id/',loginCheck(), (req,res,next)=>{
   .then(user=>{
     console.log(currentUser._id, user._id)
     if(String(currentUser._id) === String(user._id)){
-      res.render(`users/userRating`, {message:'cannot rate your self!'})
+      res.render(`users/userRating`, { user: req.user, message:'cannot rate your self!'})
       return;
     } 
     if(haveIRatedBefore(currentUser._id,user.ratings)){
-      res.render(`users/userRating`, {message:'you have already rated this user'})
+      res.render(`users/userRating`, { user: req.user, message:'you have already rated this user'})
       return;
     }
 
@@ -100,28 +102,34 @@ router.post('/edit',loginCheck(), uploader.single('photo'), (req, res, next) => 
     lastName,
     description
   } = req.body;
-  var imgPath = "";
-  var imgName = "";
-  var publicId = "";
   if (req.file) {
-    imgPath = req.file.path;
-    imgName = req.file.originalname;
-    publicId = req.file.filename;
-  }
-  User.findByIdAndUpdate(currentUser._id, {
+    User.findByIdAndUpdate(currentUser._id, {
+        firstName: firstName,
+        lastName: lastName,
+        description: description,
+        imgPath: req.file.path,
+        imgName: req.file.originalname,
+        publicId: req.file.filename
+      })
+      .then(user => {
+        res.redirect(`/profiles/${user._id}`);
+      })
+      .catch(err => {
+        next(err);
+      })
+  } else {
+    User.findByIdAndUpdate(currentUser._id, {
       firstName: firstName,
       lastName: lastName,
-      description: description,
-      imgPath: imgPath,
-      imgName: imgName,
-      publicId: publicId
+      description: description
     })
     .then(user => {
-      res.redirect('/profiles');
+      res.redirect(`/profiles/${user._id}`);
     })
     .catch(err => {
       next(err);
     })
+  }
 })
 
 router.post('/delete', (req, res, next) => {

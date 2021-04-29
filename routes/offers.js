@@ -81,22 +81,8 @@ router.get('/:id', (req, res, next) => {
       const dates = new Set(times.map(time => time.day));
       let output = '';
       if (req.user && offer.owner._id.toString() === req.user._id.toString()) {
-        for (let date of dates) {
-          output += `<div class="card mb-3">
-                      <div class="card-header">
-                        <h5 class="card-title">${weekdays[new Date(date).getDay()]}, ${date}</h5>
-                      </div>
-                      <div class="card-body">`;
-          for (let time of times) {
-            if (time.day === date) {
-              let checked = '';
-              if (time.status === 'booked') checked = 'checked';
-              output += `<input type="checkbox" class="btn-check mb-1" name="time" id="${time._id}" value="${time._id}" autocomplete="off" ${checked} disabled>
-                         <label class="btn btn-outline-primary mb-1" for="${time._id}">${time.hour}:00</label>`
-            }
-          }
-          output += `</div></div>`;
-        }
+        res.redirect(`${req.params.id}/edit`);
+        return
       } else {
         for (let date of dates) {
           output += `<div class="card mb-3">
@@ -220,9 +206,13 @@ router.get('/:id/edit', (req, res, next) => {
           output += `</div></div>`;
         }
       }
-      let appartment, room, other = ''
-      if(offer.type === 'appartment') appartment = 'checked';
+      let appartment, room, sofa, closet, table, storage, other = ''
+      if(offer.type === 'whole appartment') appartment = 'checked'; 
       if(offer.type === 'room') room = 'checked';
+      if(offer.type === 'sofa') sofa = 'checked';
+      if(offer.type === 'closet') closet = 'checked';
+      if(offer.type === 'table') table = 'checked';
+      if(offer.type === 'storage') storage = 'checked';
       if(offer.type === 'other') other = 'checked';
       res.render('offers/edit', { user: req.user, offer, output, appartment, room, other });
     })
@@ -260,9 +250,9 @@ router.post('/:id/edit', loginCheck(), uploader.single('photo'), (req, res, next
       city
     }
     if (req.file) {
-      imgPath = req.file.path;
-      imgName = req.file.originalname;
-      publicId = req.file.filename;
+      const imgPath = req.file.path;
+      const imgName = req.file.originalname;
+      const publicId = req.file.filename;
       Offer.findByIdAndUpdate(req.params.id, { name, type, description, imgPath, imgName, publicId, address, timeslots, price })
         .then(() => {
           res.redirect('/dashboard');
@@ -279,6 +269,29 @@ router.post('/:id/edit', loginCheck(), uploader.single('photo'), (req, res, next
         next(err);
       });
     } 
+  })
+  .catch(err => {
+    next(err);
+  });
+});
+
+router.post('/:id/cancel', loginCheck(), (req, res, next) => {
+  Offer.findById(req.params.id)
+  .then(offer => {
+    let timeslots = offer.timeslots;
+    for (let timeslot of timeslots) {
+      if (timeslot.bookedBy.toString() === req.user._id.toString()) {
+        timeslot.status = 'free';
+        timeslot.bookedBy = null;
+      }
+    }
+    Offer.findByIdAndUpdate(req.params.id, { timeslots })
+    .then(() => {
+      res.redirect('/dashboard');
+    })
+    .catch(err => {
+      next(err);
+    });
   })
   .catch(err => {
     next(err);
