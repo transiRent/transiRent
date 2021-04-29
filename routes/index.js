@@ -47,10 +47,6 @@ router.get("/dashboard", loginCheck(), (req, res, next) => {
           }
           output += `</div></div>`;
         }
-        output += `<form action="/offers/${offer._id}/delete" method="POST">
-                      <a href="/offers/${offer._id}/edit" class="btn btn-primary btn-lg" tabindex="-1" role="button"><i class="bi bi-pencil-fill"></i></a>
-                      <button type="submit" class="btn btn-danger btn-lg" ${offerBooked}><i class="bi bi-trash-fill"></i></button>
-                   </form>`;
         profit *= offer.price;
         return {
           address: offer.address,
@@ -95,10 +91,6 @@ router.get("/dashboard", loginCheck(), (req, res, next) => {
               }
               output += `</div></div>`;
             }
-            output += `<form action="/offers/${booking._id}/cancel" method="POST">
-                          <a href="/offers/${booking._id}" class="btn btn-primary btn-lg" tabindex="-1" role="button"><i class="bi bi-pencil-fill"></i></a>
-                          <button type="submit" class="btn btn-danger btn-lg"><i class="bi bi-trash-fill"></i></button>
-                      </form>`;
             cost *= booking.price;
             return {
               address: booking.address,

@@ -2,7 +2,7 @@
 <div class="p-3">
   <div class="card">
     <div class="card-header">
-      <h2 class="card-title">Edit {{username}}'s profile</h2>
+      <h2 class="card-title">Edit profile</h2>
     </div>
     <div class="card-body">
       <form action="/profiles/edit" method="POST" enctype="multipart/form-data">
@@ -35,7 +35,7 @@
     </div>
   </div>
   <!-- Button trigger modal -->
-  <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#exampleModal">
+  <button type="button" class="btn btn-danger btn-lg m-3" data-toggle="modal" data-target="#exampleModal">
     Delete Account
   </button>
 
@@ -56,8 +56,8 @@
         </div>
         <div class="modal-footer">
           <form action="/profiles/delete" method="POST">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Delete Account</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Dismiss</button>
+            <button type="submit" class="btn btn-danger">Delete Account</button>
           </form>
         </div>
       </div>

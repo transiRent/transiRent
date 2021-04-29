@@ -212,9 +212,9 @@ router.get('/:id/edit', (req, res, next) => {
       if(offer.type === 'sofa') sofa = 'checked';
       if(offer.type === 'closet') closet = 'checked';
       if(offer.type === 'table') table = 'checked';
-      if(offer.type === 'storage') storage = 'checked';
+      if(offer.type === 'storage compartment') storage = 'checked';
       if(offer.type === 'other') other = 'checked';
-      res.render('offers/edit', { user: req.user, offer, output, appartment, room, other });
+      res.render('offers/edit', { user: req.user, offer, output, appartment, room, sofa, closet, table, storage, other });
     })
     .catch(err => {
       next(err);

@@ -182,10 +182,10 @@ function createPopUp(currentFeature) {
          closeOnClick: true
       })
       .setLngLat(currentFeature.geometry.coordinates)
-      .setHTML(`<img src="${currentFeature.properties.img}" alt="${currentFeature.properties.title} image" onerror="this.style.display='none'">
+      .setHTML(`<img class="img-thumbnail" src="${currentFeature.properties.img}" alt="${currentFeature.properties.title} image" onerror="this.style.display='none'">
                 <h3>${currentFeature.properties.title}</h3>
                 <h4 class="address">${currentFeature.properties.address}</h4>
                 <h4 class="type">${currentFeature.properties.type}</h4>
-                <a href="/offers/${currentFeature.properties.id}">View</a>`)
+                <a class="btn btn-primary" href="/offers/${currentFeature.properties.id}" role="button">View</a>`)
       .addTo(map);
 }
