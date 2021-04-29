@@ -31,8 +31,6 @@ router.get('/:id',loginCheck(), (req, res, next) => {
       else{count = 5}
       for(let i = 0; i<count; i++){
         firstFiveRatings.push(user.ratings[i]);
-        // count++;
-        console.log('doing it')
       }
       console.log(firstFiveRatings)
       Offer.findOne({
@@ -76,7 +74,6 @@ router.post('/rate/:id/',loginCheck(), (req,res,next)=>{
       res.render(`users/userRating`, { user: req.user, message:'you have already rated this user'})
       return;
     }
-
     var newRating = {
       ratedBy: currentUser._id,
       rating: rating,
