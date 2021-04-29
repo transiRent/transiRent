@@ -115,7 +115,7 @@ function organizeData(offersFromDB) {
          })
       });
    })
-   console.log('this is the organized data', geoOffers)
+   // console.log('this is the organized data', geoOffers)
    return geoOffers
 }
 

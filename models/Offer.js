@@ -7,7 +7,7 @@ const offerSchema = new Schema({
   },
   type: { 
     type: String,
-    enum: ['appartment', 'room', 'other']
+    enum: ['whole appartment', 'room', 'sofa', 'closet', 'table', 'storage compartment',  'other']
   },
   description: String,
   imgName: String,

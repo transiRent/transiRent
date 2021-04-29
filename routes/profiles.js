@@ -2,41 +2,53 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const Offer = require('../models/Offer');
+const { loginCheck } = require('./middlewares');
 const {
   uploader,
   cloudinary
 } = require('../config/cloudinary');
 
-router.get('/', (req, res, next) => {
+router.get('/',loginCheck(), (req, res, next) => {
   const currentUser = req.user;
   res.render('users/viewProfile', {
     user: currentUser
   })
 });
 
-router.get('/edit', (req, res, next) => {
+router.get('/edit',loginCheck(), (req, res, next) => {
   const currentUser = req.user;
   res.render('users/editProfile', {
     user: currentUser
   })
 });
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id',loginCheck(), (req, res, next) => {
   User.findById(req.params.id)
     .then(user => {
+      var firstFiveRatings = [];
+      var count = 0;
+      if(user.ratings.length<=5){count = user.ratings.length}
+      else{count = 5}
+      for(let i = 0; i<count; i++){
+        firstFiveRatings.push(user.ratings[i]);
+        // count++;
+        console.log('doing it')
+      }
+      console.log(firstFiveRatings)
       Offer.findOne({
         owner: user._id
       }).then(offers =>
         res.render('users/userInfo', {
           userInfo: user,
-          offersInfo: offers
+          offersInfo: offers,
+          ratingsInfo: firstFiveRatings
         })
       )
     })
     .catch(err => next(err));
 })
 
-router.get('/rate/:id', (req, res, next) => {
+router.get('/rate/:id',loginCheck(), (req, res, next) => {
   User.findById(req.params.id)
     .then(user => {
       res.render('users/userRating', {
@@ -48,11 +60,21 @@ router.get('/rate/:id', (req, res, next) => {
     })
 })
 
-router.post('/rate/:id/', (req,res,next)=>{
+router.post('/rate/:id/',loginCheck(), (req,res,next)=>{
   const currentUser = req.user; 
   const {rating, comments} = req.body;
   User.findById(req.params.id)
   .then(user=>{
+    console.log(currentUser._id, user._id)
+    if(String(currentUser._id) === String(user._id)){
+      res.render(`users/userRating`, {message:'cannot rate your self!'})
+      return;
+    } 
+    if(haveIRatedBefore(currentUser._id,user.ratings)){
+      res.render(`users/userRating`, {message:'you have already rated this user'})
+      return;
+    }
+
     var newRating = {
       ratedBy: currentUser._id,
       rating: rating,
@@ -71,7 +93,7 @@ router.post('/rate/:id/', (req,res,next)=>{
   })
 })
 
-router.post('/edit', uploader.single('photo'), (req, res, next) => {
+router.post('/edit',loginCheck(), uploader.single('photo'), (req, res, next) => {
   const currentUser = req.user;
   const {
     firstName,
@@ -102,6 +124,25 @@ router.post('/edit', uploader.single('photo'), (req, res, next) => {
     })
 })
 
+router.post('/delete', (req, res, next) => {
+  console.log(req.user)
+  Offer.deleteMany({ owner: req.user._id })
+    .then(() => {
+      User.findOneAndDelete({_id: req.user._id})
+        .then(() => {
+          req.logout();
+          req.session.destroy();
+          res.redirect('/')
+        })
+        .catch(err => {
+          next(err);
+        })
+    }) 
+    .catch(err => {
+      next(err);
+    }) 
+})
+
 function average(arrayOfRatings, newestRating){
   let count = 0;
  for(let i = 0; i<arrayOfRatings.length; i++){
@@ -109,6 +150,11 @@ function average(arrayOfRatings, newestRating){
  }
   return Math.round((count+parseInt(newestRating))/(arrayOfRatings.length+1));
 }
-
+function haveIRatedBefore(id, ratingsArray){
+  for(let i = 0; i < ratingsArray.length; i++){
+    if(String(ratingsArray[i].ratedBy)===String(id)){return true;}
+  }
+  return false;
+}
 
 module.exports = router;
