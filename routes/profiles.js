@@ -112,6 +112,25 @@ router.post('/edit', uploader.single('photo'), (req, res, next) => {
     })
 })
 
+router.post('/delete', (req, res, next) => {
+  console.log(req.user)
+  Offer.deleteMany({ owner: req.user._id })
+    .then(() => {
+      User.findOneAndDelete({_id: req.user._id})
+        .then(() => {
+          req.logout();
+          req.session.destroy();
+          res.redirect('/')
+        })
+        .catch(err => {
+          next(err);
+        })
+    }) 
+    .catch(err => {
+      next(err);
+    }) 
+})
+
 function average(arrayOfRatings, newestRating){
   let count = 0;
  for(let i = 0; i<arrayOfRatings.length; i++){
@@ -125,4 +144,5 @@ function haveIRatedBefore(id, ratingsArray){
   }
   return false;
 }
+
 module.exports = router;
