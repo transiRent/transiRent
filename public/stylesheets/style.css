@@ -77,7 +77,7 @@ ul li {
 .listings .item {
   display: block;
   border-bottom: 1px solid #eee;
-  padding: 10px;
+  padding: 10px 15px 22px 15px;
   text-decoration: none;
 }
 
@@ -115,17 +115,6 @@ ul li {
   background-color: #f8f8f8;
 }
 
-::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
-  border-left: 0;
-  background: rgba(0, 0, 0, 0.1);
-}
-
-::-webkit-scrollbar-track {
-  background: none;
-}
-
 .clearfix {
   display: block;
 }
@@ -142,7 +131,6 @@ ul li {
 .marker {
   background-image: url('/images/mapbox-icon.png');
   background-size: cover;
-  background-position: center;
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -214,12 +202,33 @@ ul li {
   padding-bottom: 50px;
 }
 
-.btn.delete {
-  background-color: rgb(238, 2, 2);
-  border: none;
+.btn-danger {
   margin: 16px;
 }
 
-.btn.delete:hover {
-  background-color: rgb(207, 4, 4);
+button.close {
+  border: none;
+  background: none;
+  font-size: 22px;
+}
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 122px);
+  width: 100%;
+  text-align: center;
+  padding: 0 20%;
+  background-image: linear-gradient(#20196D, #342BB4);
+  color: white;
+}
+
+footer {
+  font-size: 15px;
+}
+
+.github:hover {
+  color: #0d6efd !important;
 }

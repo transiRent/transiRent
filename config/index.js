@@ -21,7 +21,7 @@ const path = require("path");
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const mongoose = require('../db/index');
-const DB_URL = 'mongodb://localhost/transiRent';
+const DB_URL = process.env.MONGODB_URI || "mongodb://localhost/transiRent";
 
 //passport configuration
 const User = require('../models/User');
