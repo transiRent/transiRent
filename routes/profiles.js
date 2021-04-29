@@ -2,41 +2,53 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const Offer = require('../models/Offer');
+const { loginCheck } = require('./middlewares');
 const {
   uploader,
   cloudinary
 } = require('../config/cloudinary');
 
-router.get('/', (req, res, next) => {
+router.get('/',loginCheck(), (req, res, next) => {
   const currentUser = req.user;
   res.render('users/viewProfile', {
     user: currentUser
   })
 });
 
-router.get('/edit', (req, res, next) => {
+router.get('/edit',loginCheck(), (req, res, next) => {
   const currentUser = req.user;
   res.render('users/editProfile', {
     user: currentUser
   })
 });
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id',loginCheck(), (req, res, next) => {
   User.findById(req.params.id)
     .then(user => {
+      var firstFiveRatings = [];
+      var count = 0;
+      if(user.ratings.length<=5){count = user.ratings.length}
+      else{count = 5}
+      for(let i = 0; i<count; i++){
+        firstFiveRatings.push(user.ratings[i]);
+        // count++;
+        console.log('doing it')
+      }
+      console.log(firstFiveRatings)
       Offer.findOne({
         owner: user._id
       }).then(offers =>
         res.render('users/userInfo', {
           userInfo: user,
-          offersInfo: offers
+          offersInfo: offers,
+          ratingsInfo: firstFiveRatings
         })
       )
     })
     .catch(err => next(err));
 })
 
-router.get('/rate/:id', (req, res, next) => {
+router.get('/rate/:id',loginCheck(), (req, res, next) => {
   User.findById(req.params.id)
     .then(user => {
       res.render('users/userRating', {
@@ -48,7 +60,7 @@ router.get('/rate/:id', (req, res, next) => {
     })
 })
 
-router.post('/rate/:id/', (req,res,next)=>{
+router.post('/rate/:id/',loginCheck(), (req,res,next)=>{
   const currentUser = req.user; 
   const {rating, comments} = req.body;
   User.findById(req.params.id)
@@ -81,7 +93,7 @@ router.post('/rate/:id/', (req,res,next)=>{
   })
 })
 
-router.post('/edit', uploader.single('photo'), (req, res, next) => {
+router.post('/edit',loginCheck(), uploader.single('photo'), (req, res, next) => {
   const currentUser = req.user;
   const {
     firstName,
