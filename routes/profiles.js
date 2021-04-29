@@ -112,7 +112,7 @@ router.post('/edit',loginCheck(), uploader.single('photo'), (req, res, next) => 
         publicId: req.file.filename
       })
       .then(user => {
-        res.redirect(`/profiles/${user._id}`);
+        res.redirect(`/`);
       })
       .catch(err => {
         next(err);
@@ -124,7 +124,7 @@ router.post('/edit',loginCheck(), uploader.single('photo'), (req, res, next) => 
       description: description
     })
     .then(user => {
-      res.redirect(`/profiles/${user._id}`);
+      res.redirect(`/`);
     })
     .catch(err => {
       next(err);
