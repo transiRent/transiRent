@@ -34,7 +34,7 @@ const stores = {
 
 const mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
 
-axios.get('http://localhost:3000/get-data')
+axios.get('/get-data')
    .then(res => {
       const offers = organizeData(res.data)
 
