@@ -38,7 +38,7 @@ const mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
 
 axios.get('/get-data')
    .then(res => {
-      const offers = organizeData(res.data.slice(0,3));
+      const offers = organizeData(res.data);
       console.log(offers);
       function addMarkers() {
          offers.features.forEach(function (marker) {
