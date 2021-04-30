@@ -109,7 +109,7 @@ function organizeData(offersFromDB) {
                title: offer.name, 
                type: offer.type, 
                address: address,
-               // img: offer.imgPath
+               img: offer.imgPath
             }
          })
       });
