@@ -106,6 +106,7 @@ function organizeData(offersFromDB) {
       })
       .send()
       .then(response => {
+         console.log('get coordinates');
          geoOffers.features.push({ 
             type: 'Feature',
             geometry: {
