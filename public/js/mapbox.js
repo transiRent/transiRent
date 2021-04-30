@@ -34,6 +34,14 @@ const stores = {
 
 const mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
 
+const map = new mapboxgl.Map({
+   container: 'map',
+   style: 'mapbox://styles/mapbox/streets-v11',
+   center: [13.405, 52.52], // starting position [lng, lat]
+   doubleClickZoom: true,
+   zoom: 9,
+});
+
 axios.get('/get-data')
    .then(res => {
       const offers = organizeData(res.data)
@@ -117,13 +125,6 @@ function organizeData(offersFromDB) {
    return geoOffers
 }
 
-const map = new mapboxgl.Map({
-   container: 'map',
-   style: 'mapbox://styles/mapbox/streets-v11',
-   center: [13.405, 52.52], // starting position [lng, lat]
-   doubleClickZoom: true,
-   zoom: 9,
-});
 
 function buildLocationList(data) {
    data.features.forEach(function (geoOffers, i) {
