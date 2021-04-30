@@ -53,7 +53,7 @@ axios.get('/get-data')
             el.addEventListener('click', function (e) {
                flyToStore(marker);
                createPopUp(marker);
-
+               console.log('add markers');
                var activeItem = document.getElementsByClassName('active');
                e.stopPropagation();
                if (activeItem[0]) {
