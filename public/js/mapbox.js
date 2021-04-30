@@ -67,6 +67,7 @@ axios.get('/get-data')
 
       map.on('load', function (e) {
          /* Add the data to your map as a source */
+         console.log('load map');
          map.addSource('places', {
             type: 'geojson',
             data: offers
