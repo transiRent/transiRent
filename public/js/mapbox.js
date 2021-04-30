@@ -44,7 +44,7 @@ const map = new mapboxgl.Map({
 
 axios.get('/get-data')
    .then(res => {
-      const offers = organizeData(res.data)
+      const offers = organizeData(res.data.slice(0,3));
       console.log(offers);
       function addMarkers() {
          offers.features.forEach(function (marker) {
