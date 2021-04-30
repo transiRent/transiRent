@@ -122,7 +122,7 @@ router.post("/rate/:id/", loginCheck(), (req, res, next) => {
       $push: { ratings: newRating },
       averageRating: newAverageRating,
     })
-      .then(res.redirect("/"))
+      .then(res.redirect(`/profiles/${req.params.id}`))
       .catch((err) => {
         next(err);
       });
