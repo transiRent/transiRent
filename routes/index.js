@@ -124,9 +124,10 @@ router.get("/dashboard", loginCheck(), (req, res, next) => {
 
 /* GET data from database */
 router.get('/get-data', (req, res, next) => {
+  console.log('get data')
   Offer.find()
   .then(allOffers => {
-    // console.log(allOffers)
+    console.log(allOffers)
     res.json(allOffers);
   })
   .catch(err => {
