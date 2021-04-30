@@ -91,106 +91,106 @@ axios.get('/get-data')
             mapboxgl: mapboxgl
          })
       );
-
-   });
-
-function organizeData(offersFromDB) {  
-   const geoOffers = {
-      type: 'FeatureCollection',
-      features: []
-   }
-
-   offersFromDB.forEach(offer => {
-      const { city, street, number, code } = offer.address;
-      const address = `${street} ${number}, ${code} ${city}`;
-      mapboxClient.geocoding.forwardGeocode({
-         query: address,
-      })
-      .send()
-      .then(response => {
-         console.log('get coordinates');
-         geoOffers.features.push({ 
-            type: 'Feature',
-            geometry: {
-               type: 'Point',
-               coordinates: response.body.features[0].center
-            },
-            properties: {
-               id: offer._id,
-               title: offer.name, 
-               type: offer.type, 
-               address: address,
-               img: offer.imgPath
-            }
+      function organizeData(offersFromDB) {  
+         const geoOffers = {
+            type: 'FeatureCollection',
+            features: []
+         }
+      
+         offersFromDB.forEach(offer => {
+            const { city, street, number, code } = offer.address;
+            const address = `${street} ${number}, ${code} ${city}`;
+            mapboxClient.geocoding.forwardGeocode({
+               query: address,
+            })
+            .send()
+            .then(response => {
+               console.log('get coordinates');
+               geoOffers.features.push({ 
+                  type: 'Feature',
+                  geometry: {
+                     type: 'Point',
+                     coordinates: response.body.features[0].center
+                  },
+                  properties: {
+                     id: offer._id,
+                     title: offer.name, 
+                     type: offer.type, 
+                     address: address,
+                     img: offer.imgPath
+                  }
+               })
+            });
          })
-      });
-   })
-   return geoOffers
-}
-
-
-function buildLocationList(data) {
-   data.features.forEach(function (geoOffers, i) {
-
-      var prop = geoOffers.properties;
-
-      var listings = document.getElementById('listings');
-      var listing = listings.appendChild(document.createElement('div'));
-
-      listing.id = "listing-" + data.features[i].properties.id;
-      listing.className = 'item';
-
-      /* Add the link to the individual listing created above. */
-      var link = listing.appendChild(document.createElement('a'));
-      link.href = '#map-container';
-      link.className = 'title';
-      link.id = "link-" + prop.id;
-      link.innerHTML = prop.title;
-
-      /* Add details to the individual listing. */
-      var details = listing.appendChild(document.createElement('div'));
-      details.innerHTML = `<h4 class="address">${prop.address}</h4>
-                           <p class="list-type">${prop.type}</p>`;
-
-      link.addEventListener('click', function (e) {
-         for (var i = 0; i < data.features.length; i++) {
-            if (this.id === "link-" + data.features[i].properties.id) {
-               var clickedListing = data.features[i];
-               flyToStore(clickedListing);
-               createPopUp(clickedListing);
-            }
-         }
-         var activeItem = document.getElementsByClassName('active');
-         if (activeItem[0]) {
-            activeItem[0].classList.remove('active');
-         }
-         this.parentNode.classList.add('active');
-      });
+         return geoOffers
+      }
+      
+      
+      function buildLocationList(data) {
+         data.features.forEach(function (geoOffers, i) {
+      
+            var prop = geoOffers.properties;
+      
+            var listings = document.getElementById('listings');
+            var listing = listings.appendChild(document.createElement('div'));
+      
+            listing.id = "listing-" + data.features[i].properties.id;
+            listing.className = 'item';
+      
+            /* Add the link to the individual listing created above. */
+            var link = listing.appendChild(document.createElement('a'));
+            link.href = '#map-container';
+            link.className = 'title';
+            link.id = "link-" + prop.id;
+            link.innerHTML = prop.title;
+      
+            /* Add details to the individual listing. */
+            var details = listing.appendChild(document.createElement('div'));
+            details.innerHTML = `<h4 class="address">${prop.address}</h4>
+                                 <p class="list-type">${prop.type}</p>`;
+      
+            link.addEventListener('click', function (e) {
+               for (var i = 0; i < data.features.length; i++) {
+                  if (this.id === "link-" + data.features[i].properties.id) {
+                     var clickedListing = data.features[i];
+                     flyToStore(clickedListing);
+                     createPopUp(clickedListing);
+                  }
+               }
+               var activeItem = document.getElementsByClassName('active');
+               if (activeItem[0]) {
+                  activeItem[0].classList.remove('active');
+               }
+               this.parentNode.classList.add('active');
+            });
+         });
+      }
+      
+      //center the map on the correct store location and zoom in.
+      function flyToStore(currentFeature) {
+         map.flyTo({
+            center: currentFeature.geometry.coordinates,
+            zoom: 12
+         });
+      }
+      
+      //displays a Mapbox GL JS Popup at that same store location.
+      function createPopUp(currentFeature) {
+         var popUps = document.getElementsByClassName('mapboxgl-popup');
+      
+         if (popUps[0]) popUps[0].remove();
+      
+         var popup = new mapboxgl.Popup({
+               closeOnClick: true
+            })
+            .setLngLat(currentFeature.geometry.coordinates)
+            .setHTML(`<img class="img-thumbnail" src="${currentFeature.properties.img}" alt="${currentFeature.properties.title} image" onerror="this.style.display='none'">
+                      <h3>${currentFeature.properties.title}</h3>
+                      <h4 class="address">${currentFeature.properties.address}</h4>
+                      <h4 class="type">${currentFeature.properties.type}</h4>
+                      <a class="btn btn-primary" href="/offers/${currentFeature.properties.id}" role="button">View</a>`)
+            .addTo(map);
+      }   
    });
-}
 
-//center the map on the correct store location and zoom in.
-function flyToStore(currentFeature) {
-   map.flyTo({
-      center: currentFeature.geometry.coordinates,
-      zoom: 12
-   });
-}
 
-//displays a Mapbox GL JS Popup at that same store location.
-function createPopUp(currentFeature) {
-   var popUps = document.getElementsByClassName('mapboxgl-popup');
-
-   if (popUps[0]) popUps[0].remove();
-
-   var popup = new mapboxgl.Popup({
-         closeOnClick: true
-      })
-      .setLngLat(currentFeature.geometry.coordinates)
-      .setHTML(`<img class="img-thumbnail" src="${currentFeature.properties.img}" alt="${currentFeature.properties.title} image" onerror="this.style.display='none'">
-                <h3>${currentFeature.properties.title}</h3>
-                <h4 class="address">${currentFeature.properties.address}</h4>
-                <h4 class="type">${currentFeature.properties.type}</h4>
-                <a class="btn btn-primary" href="/offers/${currentFeature.properties.id}" role="button">View</a>`)
-      .addTo(map);
-}
