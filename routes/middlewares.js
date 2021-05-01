@@ -11,4 +11,4 @@ const loginCheck = () => {
   }
 }
 
-module.exports = { loginCheck };
+module.exports = { loginCheck }; 
