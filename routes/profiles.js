@@ -2,8 +2,13 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const Offer = require("../models/Offer");
-const { loginCheck } = require("./middlewares");
-const { uploader, cloudinary } = require("../config/cloudinary");
+const {
+  loginCheck
+} = require("./middlewares");
+const {
+  uploader,
+  cloudinary
+} = require("../config/cloudinary");
 
 router.get("/", loginCheck(), (req, res, next) => {
   const currentUser = req.user;
@@ -34,8 +39,8 @@ router.get("/:id", loginCheck(), (req, res, next) => {
         firstFiveRatings.push(user.ratings[i]);
       }
       Offer.find({
-        owner: user._id
-      })
+          owner: user._id
+        })
         .then((offers) => {
           res.render("users/userInfo", {
             user: req.user,
@@ -66,10 +71,21 @@ router.get("/rate/:id", loginCheck(), (req, res, next) => {
       for (let i = 0; i < count; i++) {
         firstFiveRatings.push(user.ratings[i]);
       }
-      Offer.find({owner: user._id})
+      Offer.find({
+          owner: user._id
+        })
+        .populate('timeslots')
         .then((offers) => {
-          console.log(currentUser._id, user.ratings)
-          if (String(currentUser._id) === String(user._id)) {
+          if (!haveIBookedWith(offers, currentUser)){
+            res.render("users/userInfo", {
+              user: req.user,
+              userInfo: user,
+              offersInfo: offers,
+              ratingsInfo: firstFiveRatings,
+              message: "You have not booked with this user yet"
+            })
+            return
+          } else if (String(currentUser._id) === String(user._id)) {
             res.render("users/userInfo", {
               user: req.user,
               userInfo: user,
@@ -105,7 +121,10 @@ router.get("/rate/:id", loginCheck(), (req, res, next) => {
 
 router.post("/rate/:id/", loginCheck(), (req, res, next) => {
   const currentUser = req.user;
-  const { rating, comments } = req.body;
+  const {
+    rating,
+    comments
+  } = req.body;
   User.findById(req.params.id).then((user) => {
     var newRating = {
       ratedBy: currentUser._id,
@@ -119,9 +138,11 @@ router.post("/rate/:id/", loginCheck(), (req, res, next) => {
       newAverageRating = average(user.ratings, newRating.rating);
     }
     User.findByIdAndUpdate(req.params.id, {
-      $push: { ratings: newRating },
-      averageRating: newAverageRating,
-    })
+        $push: {
+          ratings: newRating
+        },
+        averageRating: newAverageRating,
+      })
       .then(res.redirect(`/profiles/${req.params.id}`))
       .catch((err) => {
         next(err);
@@ -135,17 +156,22 @@ router.post(
   uploader.single("photo"),
   (req, res, next) => {
     const currentUser = req.user;
-    const { firstName, lastName, email, description } = req.body;
+    const {
+      firstName,
+      lastName,
+      email,
+      description
+    } = req.body;
     if (req.file) {
       User.findByIdAndUpdate(currentUser._id, {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        description: description,
-        imgPath: req.file.path,
-        imgName: req.file.originalname,
-        publicId: req.file.filename,
-      })
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          description: description,
+          imgPath: req.file.path,
+          imgName: req.file.originalname,
+          publicId: req.file.filename,
+        })
         .then((user) => {
           res.redirect(`/profiles/${currentUser._id}`);
         })
@@ -154,11 +180,11 @@ router.post(
         });
     } else {
       User.findByIdAndUpdate(currentUser._id, {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        description: description,
-      })
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          description: description,
+        })
         .then((user) => {
           res.redirect(`/profiles/${currentUser._id}`);
         })
@@ -170,10 +196,14 @@ router.post(
 );
 
 router.post("/delete", (req, res, next) => {
-  console.log(req.user);
-  Offer.deleteMany({ owner: req.user._id })
+  // console.log(req.user);
+  Offer.deleteMany({
+      owner: req.user._id
+    })
     .then(() => {
-      User.findOneAndDelete({ _id: req.user._id })
+      User.findOneAndDelete({
+          _id: req.user._id
+        })
         .then(() => {
           req.logout();
           req.session.destroy();
@@ -197,6 +227,7 @@ function average(arrayOfRatings, newestRating) {
     (count + parseInt(newestRating)) / (arrayOfRatings.length + 1)
   );
 }
+
 function haveIRatedBefore(id, ratingsArray) {
   for (let i = 0; i < ratingsArray.length; i++) {
     if (String(ratingsArray[i].ratedBy._id) === String(id)) {
@@ -204,6 +235,22 @@ function haveIRatedBefore(id, ratingsArray) {
     }
   }
   return false;
+}
+
+function haveIBookedWith(offers, currentUser) {
+  let arr = [];
+  let hasBookedWith = false;
+  for (let offer of offers) {
+    let ts = offer.timeslots;
+    for (slot of ts) {
+      arr.push(String(slot.bookedBy));
+      console.log(slot.bookedBy)
+    }
+  }
+  if (arr.includes(String(currentUser._id))) {
+    hasBookedWith = true;
+  }
+  return hasBookedWith;
 }
 
 module.exports = router;
